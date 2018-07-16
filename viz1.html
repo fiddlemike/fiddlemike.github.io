@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+  function handleLoad(e) {
+    console.log('Loaded import: ' + e.target.href);
+  }
+
+  function handleError(e) {
+    console.log('Error loading import: ' + e.target.href);
+  }
+</script>
+
+<head>
+  <link rel="import" href="./templates/head.html" id="head" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/footer.html" id="std-footer" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/header.html" id="std-header" onload="handleLoad(event)" onerror="handleError(event)">
+  <script type="text/javascript" src="./js/circle.js"></script>
+</head>
+
+<body class="container" onload="updateCircleViz(viz, data)">
+  <header id="header">
+    <script>
+      // Get the link element that references the header.html file.
+      var headerTemplate = document.getElementById('std-header');
+      // Retrieve the loaded templates.
+      var templates = headerTemplate.import
+      // Get the template.
+      var template = templates.getElementById('std-header');
+      if (template) {
+        // Clone the templates contents
+        var clone = document.importNode(template.content, true);
+        // Add the template code to the page header
+        document.getElementById('header').appendChild(clone);
+      } else {
+        console.log('unable to access template.');
+      }
+    </script>
+  </header>
+
+  <main>
+        <div id="svg-container">
+          <svg id="viz" width="720" height="405"></svg>
+        </div>
+  </main>
+
+  <footer id="footer">
+    <script>
+      // Get the link element that references the header.html file.
+      var footerTemplate = document.getElementById('std-footer');
+      // Retrieve the loaded templates.
+      var templates = footerTemplate.import
+      // Get the template.
+      var template = templates.getElementById('std-footer');
+      if (template) {
+        // Clone the templates contents
+        var clone = document.importNode(template.content, true);
+        // Add the template code to the page header
+        document.getElementById('footer').appendChild(clone);
+      } else {
+        console.log('unable to access template.');
+      }
+    </script>
+  </footer>
+
+
+</body>
+
+</html>
