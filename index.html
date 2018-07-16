@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script>
-$(function(){
-  $("#head").load("templates/head.html");
-  $("#header").load("templates/header.html");
-  $("#footer").load("templates/footer.html");
-});
+  $(function() {
+    $("#head").load("templates/head.html");
+    $("#header").load("templates/header.html");
+    $("#footer").load("templates/footer.html");
+  });
 </script>
+
 <body class="container">
+  <div id="header">
+  </div>
 
-<header>
-</header>
+  <div class="jumbotron">
+    <h2>CS498-DDV Visualizations</h2>
+    <p>
+      This site was created to display visualizations for the MCSDS course, CS498-DDV. The visualizations are created using the D3 javascript library.
+    </p>
+  </div>
 
-<main>
-    <div class="jumbotron">
-        <h2>CS498-DDV Visualizations</h2>
-        <p>
-        This site was created to display visualizations for the MCSDS course, CS498-DDV. The visualizations
-        are created using the D3 javascript library.
-        </p>
-    </div>
-</main>
-
-<footer>
-</footer>
+  <div id="footer">
+  </div>
 
 </body>
+
 </html>
