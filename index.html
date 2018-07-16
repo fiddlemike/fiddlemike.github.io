@@ -28,13 +28,14 @@
   </div>
 
 
-  <script>
-  var link = document.querySelector('link[rel="import"]');
-  var content = link.import;
-  // Grab DOM from warning.html's document.
-  var el = content.querySelector('.std-footer');
-  document.body.appendChild(el.cloneNode(true));
-  </script>
+  <footer>
+    <script>
+    var link = document.querySelector('link[rel="import"]');
+    // Clone the <template> in the import.
+    var template = link.import.querySelector('template');
+    var clone = document.importNode(template.content, true);
+    document.querySelector('.footer').appendChild(clone);
+  </footer>
 
 
 </body>
