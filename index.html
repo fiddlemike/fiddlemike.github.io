@@ -12,13 +12,18 @@
 
 <head>
   <link rel="import" href="./templates/head.html" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="templates/footer.html" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/footer.html" onload="handleLoad(event)" onerror="handleError(event)">
   <link rel="import" href="./templates/header.html" onload="handleLoad(event)" onerror="handleError(event)">
 </head>
 
 <body class="container">
   <header>
-
+    <script>
+      var content = document.querySelector('link[rel="import"]').import;
+      // Grab DOM from warning.html's document.
+      var elem = content.querySelector('.std-header');
+      document.body.appendChild(elem.cloneNode(true));
+    </script>
   </header>
 
   <div class="jumbotron">
@@ -31,10 +36,10 @@
 
   <footer>
     <script>
-      var htmlImport = document.querySelector('link[rel="import"]');
-      var htmlDoc = htmlImport.import;
-      var htmlMessage = htmlDoc.querySelector('.footer');
-      document.body.appendChild(htmlMessage.cloneNode(true));
+      var content = document.querySelector('link[rel="import"]').import;
+      // Grab DOM from warning.html's document.
+      var elem = content.querySelector('.std-footer');
+      document.body.appendChild(elem.cloneNode(true));
     </script>
   </footer>
 
