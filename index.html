@@ -17,7 +17,7 @@
 </head>
 
 <body class="container">
-  <header>
+  <header id="header">
     <script>
       // Get the link element that references the header.html file.
       var headerTemplate = document.getElementById('std-header');
@@ -29,7 +29,7 @@
         // Clone the templates contents
         var clone = document.importNode(template.content, true);
         // Add the template code to the page header
-        document.getElementsByTagName('header').appendChild(clone);
+        document.getElementById('header').appendChild(clone);
       } else {
         console.log('unable to access template.');
       }
@@ -45,14 +45,19 @@
     </div>
   </main>
 
-  <footer>
+  <footer id="footer">
     <script>
-      var link = document.querySelector('link[rel="import"]');
-      // Clone the <template> in the import.
-      var template = link.import.querySelector('std-footer');
+      // Get the link element that references the header.html file.
+      var footerTemplate = document.getElementById('std-footer');
+      // Retrieve the loaded templates.
+      var templates = footerTemplate.import
+      // Get the template.
+      var template = templates.getElementById('std-footer');
       if (template) {
+        // Clone the templates contents
         var clone = document.importNode(template.content, true);
-        document.querySelector('#footer').appendChild(clone);
+        // Add the template code to the page header
+        document.getElementById('footer').appendChild(clone);
       } else {
         console.log('unable to access template.');
       }
