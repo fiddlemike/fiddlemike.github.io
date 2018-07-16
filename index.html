@@ -11,20 +11,24 @@
 </script>
 
 <head>
-  <link rel="import" href="./templates/head.html" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="./templates/footer.html" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="./templates/header.html" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/head.html" id="head" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/footer.html" id="std-footer" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/header.html" id="std-header" onload="handleLoad(event)" onerror="handleError(event)">
 </head>
 
 <body class="container">
   <header>
     <script>
-      var link = document.querySelector('link[rel="import"]');
-      // Clone the <template> in the import.
-      var template = link.import.querySelector('std-header');
+      // Get the link element that references the header.html file.
+      var headerTemplate = document.getElementById('std-header');
+      // Retrieve the loaded templates.
+      var templates = headerTemplate.import
+      // Get the template.
+      var template = templates.getElementById('std-header');
       if (template) {
         var clone = document.importNode(template.content, true);
-        document.querySelector('#header').appendChild(clone);
+        // Add the template code to the page header
+        document.getElementById('header').appendChild(clone);
       } else {
         console.log('unable to access template.');
       }
