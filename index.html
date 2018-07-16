@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+<script>
+  function handleLoad(e) {
+    console.log('Loaded import: ' + e.target.href);
+  }
+
+  function handleError(e) {
+    console.log('Error loading import: ' + e.target.href);
+  }
+</script>
 
 <head>
-  <link rel="import" href="./templates/head.html">
+  <link rel="import" href="./templates/head.html" onload="handleLoad(event)" onerror="handleError(event)">
 </head>
 
 <body class="container">
   <header>
-    <link rel="import" href="./templates/header.html">
+    <link rel="import" href="./templates/header.html" onload="handleLoad(event)" onerror="handleError(event)">
   </header>
 
   <div class="jumbotron">
@@ -18,7 +27,7 @@
   </div>
 
   <footer>
-      <link rel="import" href="./templates/footer.html">
+    <link rel="import" href="./templates/footer.html" onload="handleLoad(event)" onerror="handleError(event)">
   </footer>
 
 </body>
