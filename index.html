@@ -26,9 +26,10 @@
       // Get the template.
       var template = templates.getElementById('std-header');
       if (template) {
+        // Clone the templates contents
         var clone = document.importNode(template.content, true);
         // Add the template code to the page header
-        document.getElementById('header').appendChild(clone);
+        document.getElementsByTagName('header').appendChild(clone);
       } else {
         console.log('unable to access template.');
       }
