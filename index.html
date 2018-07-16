@@ -29,9 +29,11 @@
 
 
   <script>
-    var link = document.querySelector('link[rel=import]');
-    var content = link.import.querySelector('.std-footer');
-    document.body.appendChild(document.importNode(content, true));
+  var link = document.querySelector('link[rel="import"]');
+  var content = link.import;
+  // Grab DOM from warning.html's document.
+  var el = content.querySelector('.std-footer');
+  document.body.appendChild(el.cloneNode(true));
   </script>
 
 
