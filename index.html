@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="import" href="templates/head.html">
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script>
+$(function(){
+  $("#head").load("templates/head.html");
+  $("#header").load("templates/header.html");
+  $("#footer").load("templates/footer.html");
+});
+</script>
 <body class="container">
 
 <header>
-    <link rel="import" href="templates/header.html">
 </header>
 
 <main>
@@ -20,7 +26,6 @@
 </main>
 
 <footer>
-  <link rel="import" href="templates/footer.html">
 </footer>
 
 </body>
