@@ -2,19 +2,13 @@
 <html lang="en">
 
 <head>
+  <!--#include file="templates/head.html" -->
 </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script>
-  $(function() {
-    $("#head").load("templates/head.html");
-    $("#header").load("templates/header.html");
-    $("#footer").load("templates/footer.html");
-  });
-</script>
 
 <body class="container">
-  <div id="header">
-  </div>
+  <header>
+    <!--#include file="templates/header.html" -->
+  </header>
 
   <div class="jumbotron">
     <h2>CS498-DDV Visualizations</h2>
@@ -23,8 +17,9 @@
     </p>
   </div>
 
-  <div id="footer">
-  </div>
+  <footer>
+    <!--#include file="templates/footer.html" -->
+  </footer>
 
 </body>
 
