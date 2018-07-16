@@ -22,8 +22,12 @@
       var link = document.querySelector('link[rel="import"]');
       // Clone the <template> in the import.
       var template = link.import.querySelector('std-header');
-      var clone = document.importNode(template.content, true);
-      document.querySelector('#header').appendChild(clone);
+      if (template) {
+        var clone = document.importNode(template.content, true);
+        document.querySelector('#header').appendChild(clone);
+      } else {
+        console.log('unable to access template.');
+      }
     </script>
   </header>
 
@@ -41,8 +45,12 @@
       var link = document.querySelector('link[rel="import"]');
       // Clone the <template> in the import.
       var template = link.import.querySelector('std-footer');
-      var clone = document.importNode(template.content, true);
-      document.querySelector('#footer').appendChild(clone);
+      if (template) {
+        var clone = document.importNode(template.content, true);
+        document.querySelector('#footer').appendChild(clone);
+      } else {
+        console.log('unable to access template.');
+      }
     </script>
   </footer>
 
