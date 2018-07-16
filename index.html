@@ -19,27 +19,30 @@
 <body class="container">
   <header>
     <script>
-      var content = document.querySelector('link[rel="import"]').import;
-      // Grab DOM from warning.html's document.
-      var elem = content.querySelector('.std-header');
-      document.body.appendChild(elem.cloneNode(true));
+      var link = document.querySelector('link[rel="import"]');
+      // Clone the <template> in the import.
+      var template = link.import.querySelector('std-header');
+      var clone = document.importNode(template.content, true);
+      document.querySelector('#header').appendChild(clone);
     </script>
   </header>
 
-  <div class="jumbotron">
-    <h2>CS498-DDV Visualizations</h2>
-    <p>
-      This site was created to display visualizations for the MCSDS course, CS498-DDV. The visualizations are created using the D3 javascript library.
-    </p>
-  </div>
-
+  <main>
+    <div class="jumbotron">
+      <h2>CS498-DDV Visualizations</h2>
+      <p>
+        This site was created to display visualizations for the MCSDS course, CS498-DDV. The visualizations are created using the D3 javascript library.
+      </p>
+    </div>
+  </main>
 
   <footer>
     <script>
-      var content = document.querySelector('link[rel="import"]').import;
-      // Grab DOM from warning.html's document.
-      var elem = content.querySelector('.std-footer');
-      document.body.appendChild(elem.cloneNode(true));
+      var link = document.querySelector('link[rel="import"]');
+      // Clone the <template> in the import.
+      var template = link.import.querySelector('std-footer');
+      var clone = document.importNode(template.content, true);
+      document.querySelector('#footer').appendChild(clone);
     </script>
   </footer>
 
