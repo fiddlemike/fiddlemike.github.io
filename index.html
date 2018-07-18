@@ -12,26 +12,27 @@
 
 <head>
   <link rel="import" href="./templates/head.html" id="head" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="./templates/footer.html" id="std-footer" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/footer.html" id="import-std-footer" onload="handleLoad(event)" onerror="handleError(event)">
   <link rel="import" href="./templates/header.html" id="import-std-header" onload="handleLoad(event)" onerror="handleError(event)">
 </head>
 
 <body class="container">
   <header id="header">
     <script>
-      // Test to see if the browser supports the HTML template element by checking
-      // for the presence of the template element's content attribute.
-      if ('content' in document.createElement('template')) {
-          var t = document.querySelector('std-header');
-          var clone = document.importNode(t.content, true);
-          // Add the template code to the page header
-          document.getElementById('header').appendChild(clone);
-
+      // Get the link element that references the header.html file.
+      var headerTemplate = document.getElementById('import-std-header');
+      // Retrieve the loaded templates.
+      var templates = headerTemplate.import
+      // Get the template.
+      var template = templates.getElementById('std-header');
+      if (template) {
+        // Clone the templates contents
+        var clone = document.importNode(template.content, true);
+        // Add the template code to the page footer
+        document.getElementById('footer').appendChild(clone);
       } else {
-        // Find another way to add the rows to the table because 
-        // the HTML template element is not supported.
-        console.log('something went wrong.');
-      }   
+        console.log('unable to access template.');
+      }
     </script>
   </header>
 
@@ -46,8 +47,8 @@
 
   <footer id="footer">
     <script>
-      // Get the link element that references the header.html file.
-      var footerTemplate = document.getElementById('std-footer');
+      // Get the link element that references the footer.html file.
+      var footerTemplate = document.getElementById('import-std-footer');
       // Retrieve the loaded templates.
       var templates = footerTemplate.import
       // Get the template.
@@ -55,7 +56,7 @@
       if (template) {
         // Clone the templates contents
         var clone = document.importNode(template.content, true);
-        // Add the template code to the page header
+        // Add the template code to the page footer
         document.getElementById('footer').appendChild(clone);
       } else {
         console.log('unable to access template.');
