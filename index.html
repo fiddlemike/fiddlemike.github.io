@@ -19,11 +19,19 @@
 <body class="container">
   <header id="header">
     <script>
-      // Get the link element that references the header.html file.
-      var headerTemplate = document.querySelector('#std-header');
-      var clone = document.importNode(headerTemplate.content, true);
-      // Add the template code to the page header
-      document.getElementById('header').appendChild(clone);
+      // Test to see if the browser supports the HTML template element by checking
+      // for the presence of the template element's content attribute.
+      if ('content' in document.createElement('template')) {
+          var t = document.querySelector('#std-header');
+          var clone = document.importNode(t.content, true);
+          // Add the template code to the page header
+          document.getElementById('header').appendChild(clone);
+
+      } else {
+        // Find another way to add the rows to the table because 
+        // the HTML template element is not supported.
+        console.log('something went wrong.');
+      }   
     </script>
   </header>
 
