@@ -20,19 +20,10 @@
   <header id="header">
     <script>
       // Get the link element that references the header.html file.
-      var headerTemplate = document.getElementById('std-header');
-      // Retrieve the loaded templates.
-      var templates = headerTemplate.import
-      // Get the template.
-      var template = templates.getElementById('std-header');
-      if (template) {
-        // Clone the templates contents
-        var clone = document.importNode(template.content, true);
-        // Add the template code to the page header
-        document.getElementById('header').appendChild(clone);
-      } else {
-        console.log('unable to access template.');
-      }
+      var headerTemplate = document.querySelector('#std-header');
+      var clone = document.importNode(headerTemplate.content, true);
+      // Add the template code to the page header
+      document.getElementById('header').appendChild(clone);
     </script>
   </header>
 
