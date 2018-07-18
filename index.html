@@ -13,7 +13,7 @@
 <head>
   <link rel="import" href="./templates/head.html" id="head" onload="handleLoad(event)" onerror="handleError(event)">
   <link rel="import" href="./templates/footer.html" id="std-footer" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="./templates/header.html" id="std-header" onload="handleLoad(event)" onerror="handleError(event)">
+  <link rel="import" href="./templates/header.html" id="import-std-header" onload="handleLoad(event)" onerror="handleError(event)">
 </head>
 
 <body class="container">
@@ -23,7 +23,7 @@
       // for the presence of the template element's content attribute.
       if ('content' in document.createElement('template')) {
           var t = document.querySelector('std-header');
-          var clone = t.content.cloneNode(true);
+          var clone = document.importNode(t.content, true);
           // Add the template code to the page header
           document.getElementById('header').appendChild(clone);
 
