@@ -11,3 +11,9 @@
     border-right: 1px solid;
     border-color: #000000;
   }
+
+  footer {
+      display: block;
+      position: absolute;
+      bottom: 10px;
+  }
