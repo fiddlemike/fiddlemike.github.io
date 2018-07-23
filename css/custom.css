@@ -10,13 +10,8 @@
     background-color: #e5e5e5;
     display: table-cell;
     width: 200px;
-    padding:10px;
+    padding:10px 10px 10px 10px;
     float: left;
     border: 1px solid;
     border-color: #000000;
-  }
-
-  #footer {
-      position: absolute;
-      bottom: 0;
   }
