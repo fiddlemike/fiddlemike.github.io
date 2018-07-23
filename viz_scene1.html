@@ -70,7 +70,7 @@
           xMap = function(d) {
             return xScale(xValue(d));
           }, // data -> display
-          xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+          xAxis = d3.axisBottom(xScale).tickFormat(function(d){ return d.x;});
 
         // setup y
         var yValue = function(d) {
@@ -80,7 +80,7 @@
           yMap = function(d) {
             return yScale(yValue(d));
           }, // data -> display
-          yAxis = d3.svg.axis().scale(yScale).orient("left");
+          yAxis = d3.axisLeft(yScale);
 
         // setup fill color
         var cValue = function(d) {
