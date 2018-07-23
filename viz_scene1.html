@@ -39,10 +39,8 @@
   </header>
 
   <main>
-    
-
     <div id="scatterplot" style="width:75%">
-
+      <svg class="chart" width="960" height="500"></svg>
       <script>
       var margin = {top: 20, right: 20, bottom: 30, left: 40},
           width = 960 - margin.left - margin.right,
@@ -60,10 +58,10 @@
 
       var yAxis = d3.axisLeft(y);
 
-      var svg = d3.select("scatterplot").append("svg")
+      var svg = d3.select(".chart").append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
-        .append("g")
+          .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       d3.tsv("./data/data.tsv", function(error, data) {
