@@ -44,7 +44,7 @@
       <p>Test of side bar</P>
     </div>
 
-    <div id="svg-chart" style="width:75%">
+    <div id="scatterplot" style="width:75%">
 
       <script>
       var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -63,7 +63,7 @@
 
       var yAxis = d3.axisLeft(y);
 
-      var svg = d3.select("chart").append("svg")
+      var svg = d3.select("scatterplot").append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -71,7 +71,6 @@
 
       d3.tsv("./data/data.tsv", function(error, data) {
         if (error) throw error;
-
         data.forEach(function(d) {
           d.sepalLength = +d.sepalLength;
           d.sepalWidth = +d.sepalWidth;
