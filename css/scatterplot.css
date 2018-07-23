@@ -10,5 +10,5 @@
 }
 
 .scatterplot {
-  flex-grow: 1;
+  float:right;
 }
