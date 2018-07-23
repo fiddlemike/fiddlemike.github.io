@@ -2,12 +2,15 @@
     padding-top: 50px;
   }
 
+  .container {
+    display: flex;
+  }
+
   .sidebar {
     background-color: #e5e5e5;
     display: table-cell;
-    height: 75%;
-    width: 25%;
-    float:left;
+    width: 200px;
+    float: left;
     border: 1px solid;
     border-color: #000000;
   }

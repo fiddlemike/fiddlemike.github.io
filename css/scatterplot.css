@@ -10,7 +10,5 @@
 }
 
 .scatterplot {
-  height: 75%;
-  width: 75%;
-  float:right;
+  flex-grow: 1;
 }
