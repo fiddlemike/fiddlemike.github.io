@@ -7,10 +7,8 @@
     display: table-cell;
     height: 75%;
     width: 10%;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    float:left;
+    margin: 10px 10px 50px 10px;
     border: 1px solid;
     border-color: #000000;
   }
