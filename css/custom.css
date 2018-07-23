@@ -5,6 +5,7 @@
   .sidebar {
     background-color: #e5e5e5;
     display: table-cell;
+    height: 100%;
     float: left;
     padding: 10px 10px 10px 10px;
     border-right: 1px solid;
@@ -21,4 +22,5 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    align-content: center;
   }
