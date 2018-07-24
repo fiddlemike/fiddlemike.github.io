@@ -38,8 +38,8 @@
     </script>
   </header>
 
-  <main class"flex_container">
-    
+  <main class "flex_container">
+
     <div class="menu sticky-top p-3 bg-light">
       <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Essay</a>
       <p>Test of secondary header</p>
@@ -53,17 +53,14 @@
             top: 20,
             right: 20,
             bottom: 30,
-            left: 40
+            left: 80
           },
-          width = 960 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+          width = +svg.attr("width") - margin.left - margin.right,
+          height = +svg.attr("height") - margin.top - margin.bottom;
 
         // set the ranges
-        var x = d3.scaleBand()
-          .range([0, width])
-          .padding(0.1);
-        var y = d3.scaleLinear()
-          .range([height, 0]);
+        var x = d3.scaleLinear().range([0, width]);
+        var y = d3.scaleBand().range([height, 0]);
 
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
@@ -85,6 +82,10 @@
         }, function(error, csv_data) {
           if (error) throw error;
 
+          data.sort(function(a, b) {
+            return a.value - b.value;
+          });
+
           // console.log(data);
           var data = d3.nest()
             .key(function(d) {
@@ -97,45 +98,53 @@
             }).entries(csv_data);
 
 
-          console.log(data);
+          // console.log(data);
 
           // Scale the range of the data in the domains
-          x.domain(data.map(function(d) {
-            return d.key;
-          }));
-          y.domain([0, d3.max(data, function(d) {
+          x.domain([0, d3.max(data, function(d) {
             return d.value;
           })]);
+          y.domain(data.map(function(d) {
+            return d.key;
+          }));
 
           // append the rectangles for the bar chart
           svg.selectAll(".bar")
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", function(d) {
-              return x(d.key);
-            })
-            .attr("width", x.bandwidth())
+            ..attr("x", 0)
+            .attr("height", y.bandwidth())
             .attr("y", function(d) {
-              return y(d.value);
+              return y(d.area);
             })
-            .attr("height", function(d) {
-              return height - y(d.value);
+            .attr("width", function(d) {
+              return x(d.value);
+            })
+            .on("mousemove", function(d) {
+              tooltip
+                .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .html((d.key) + "<br>" + (d.value));
+            })
+            .on("mouseout", function(d) {
+              tooltip.style("display", "none");
             });
 
           // add the x Axis
           svg.append("g")
+            .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", "rotate(-65)");
+            .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
+              return parseInt(d / 1000);
+            }).tickSizeInner([-height]));
 
           // add the y Axis
           svg.append("g")
+            .attr("class", "y axis")
             .call(d3.axisLeft(y));
+
 
         });
       </script>
