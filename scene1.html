@@ -79,6 +79,8 @@
         d3.csv("data/gun-violence-data_01-2013_03-2018.csv", function(error, data) {
           if (error) throw error;
 
+          console.log(JSON.stringify(data));
+          
           var GroupedByState = d3.nest()
             .key(function(d) {
               return d.state;
