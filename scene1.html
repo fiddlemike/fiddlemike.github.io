@@ -96,19 +96,15 @@
               });
             }).entries(csv_data);
 
-            data.forEach(function(d) {
-             d.state = d.key;
-             d.freq = d.values;
-            });
 
           console.log(data);
 
           // Scale the range of the data in the domains
           x.domain(data.map(function(d) {
-            return d.state;
+            return d.key;
           }));
           y.domain([0, d3.max(data, function(d) {
-            return d.freq;
+            return d.value;
           })]);
 
           // append the rectangles for the bar chart
@@ -117,14 +113,14 @@
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x", function(d) {
-              return x(d.state);
+              return x(d.key);
             })
             .attr("width", x.bandwidth())
             .attr("y", function(d) {
-              return y(d.freq);
+              return y(d.value);
             })
             .attr("height", function(d) {
-              return height - y(d.freq);
+              return height - y(d.value);
             });
 
           // add the x Axis
