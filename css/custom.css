@@ -19,3 +19,11 @@
     width: 250px;
     border: 1px solid #000000;
   }
+
+  .chart {
+    display: block;
+  }
+
+  .barchart {
+    display: block;
+  }
