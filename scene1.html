@@ -52,9 +52,9 @@
         var svg = d3.select(".chart"),
           margin = {
             top: 20,
-            right: 20,
-            bottom: 30,
-            left: 80
+            right: 10,
+            bottom: 35,
+            left: 100
           },
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
@@ -148,7 +148,7 @@
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
-                .html((d.key) + "<br>" + (d.value));
+                .html((d.key) + "<br>" + "Total Incidents: "+ (d.value));
             })
             .on("mouseout", function(d) {
               tooltip.style("display", "none");
