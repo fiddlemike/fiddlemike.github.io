@@ -89,12 +89,12 @@
             }
           });
           // now store the count in each data member
-          dataset.forEach(function(d) {
+          data.forEach(function(d) {
             var state = d.value;
             console.log(state);
             d.count = counts[state];
           });
-          
+
           // Scale the range of the data in the domains
           x.domain(data.map(function(d) {
             return d.state;
