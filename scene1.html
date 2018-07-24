@@ -50,14 +50,14 @@
       <script>
         // set the dimensions and margins of the graph
         var svg = d3.select(".chart"),
-          var margin = {
-              top: 20,
-              right: 20,
-              bottom: 30,
-              left: 80
-            },
-            width = +svg.attr("width") - margin.left - margin.right,
-            height = +svg.attr("height") - margin.top - margin.bottom;
+          margin = {
+            top: 20,
+            right: 20,
+            bottom: 30,
+            left: 80
+          },
+          width = +svg.attr("width") - margin.left - margin.right,
+          height = +svg.attr("height") - margin.top - margin.bottom;
 
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
         // set the ranges
@@ -65,7 +65,7 @@
         var y = d3.scaleBand().range([height, 0]);
 
         var g = svg.append("g")
-        		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // get the data
         d3.csv("data/incidents_by_year_and_state.csv", function(d) {
