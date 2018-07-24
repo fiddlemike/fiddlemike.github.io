@@ -113,7 +113,7 @@
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
-            ..attr("x", 0)
+            .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
               return y(d.area);
