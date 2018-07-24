@@ -77,10 +77,6 @@
         }, function(error, csv_data) {
           if (error) throw error;
 
-          data.sort(function(a, b) {
-            return a.value - b.value;
-          });
-
           // console.log(data);
           var data = d3.nest()
             .key(function(d) {
@@ -92,6 +88,10 @@
               });
             }).entries(csv_data);
 
+          /* Sort from highest to lowest*/
+          data.sort(function(a, b) {
+            return b.value - a.value;
+          });
 
           // console.log(data);
 
