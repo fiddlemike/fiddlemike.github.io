@@ -2,33 +2,11 @@
     padding-top: 50px;
   }
 
-  .sidebar {
-    background-color: #e5e5e5;
-    display: table-cell;
-    height: 100%;
-    float: left;
-    padding: 10px 10px 10px 10px;
-    border-right: 1px solid;
-    border-color: #000000;
-  }
-  .rightbar {
-    background-color: #e5e5e5;
-    display: table-cell;
-    height: 100%;
-    float: right;
-    padding: 10px 10px 10px 10px;
-    border-right: 1px solid;
-    border-color: #000000;
-  }
+
   footer {
     display: block;
     position: absolute;
     bottom: 10px;
   }
 
-  .flex-container{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: center;
-  }
+  
