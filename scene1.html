@@ -86,18 +86,22 @@
               return d.state;
             })
             .rollup(function(v) {
-            total: d3.sum(v, function(d) { return d.freq; }),
+              return {
+                total: d3.sum(v, function(d) {
+                  return d.freq;
+                })
+              };
             })
             .entries(data);
 
-            console.log(JSON.stringify(StateIncidentCounts));
+          console.log(JSON.stringify(StateIncidentCounts));
 
           // Scale the range of the data in the domains
           x.domain(data.map(function(d) {
             return d.state;
           }));
           y.domain([0, d3.max(data, function(d) {
-            return d.count;
+            return d.total;
           })]);
 
           // append the rectangles for the bar chart
@@ -110,10 +114,10 @@
             })
             .attr("width", x.bandwidth())
             .attr("y", function(d) {
-              return y(d.count);
+              return y(d.total);
             })
             .attr("height", function(d) {
-              return height - y(d.count);
+              return height - y(d.total);
             });
 
           // add the x Axis
