@@ -49,28 +49,23 @@
       <svg class="chart" width="960" height="500"></svg>
       <script>
         // set the dimensions and margins of the graph
-        var margin = {
-            top: 20,
-            right: 20,
-            bottom: 30,
-            left: 80
-          },
-          width = +svg.attr("width") - margin.left - margin.right,
-          height = +svg.attr("height") - margin.top - margin.bottom;
+        var svg = d3.select(".chart"),
+          var margin = {
+              top: 20,
+              right: 20,
+              bottom: 30,
+              left: 80
+            },
+            width = +svg.attr("width") - margin.left - margin.right,
+            height = +svg.attr("height") - margin.top - margin.bottom;
 
+        var tooltip = d3.select("body").append("div").attr("class", "toolTip");
         // set the ranges
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleBand().range([height, 0]);
 
-        // append the svg object to the body of the page
-        // append a 'group' element to 'svg'
-        // moves the 'group' element to the top left margin
-        var svg = d3.select(".chart").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-          .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+        var g = svg.append("g")
+        		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // get the data
         d3.csv("data/incidents_by_year_and_state.csv", function(d) {
@@ -108,6 +103,19 @@
             return d.key;
           }));
 
+          // add the x Axis
+          svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
+              return parseInt(d / 1000);
+            }).tickSizeInner([-height]));
+
+          // add the y Axis
+          svg.append("g")
+            .attr("class", "y axis")
+            .call(d3.axisLeft(y));
+
           // append the rectangles for the bar chart
           svg.selectAll(".bar")
             .data(data)
@@ -131,20 +139,6 @@
             .on("mouseout", function(d) {
               tooltip.style("display", "none");
             });
-
-          // add the x Axis
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
-              return parseInt(d / 1000);
-            }).tickSizeInner([-height]));
-
-          // add the y Axis
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(d3.axisLeft(y));
-
 
         });
       </script>
