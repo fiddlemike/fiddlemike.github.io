@@ -89,19 +89,18 @@
             }).entries(csv_data);
 
           /* Sort from highest to lowest*/
-        //  data.sort(function(a, b) {
-        //    return b.value - a.value;
-      //    });
+          data.sort(function(a, b) {
+            return b.value - a.value;
+          });
 
           // console.log(data);
-
           // Scale the range of the data in the domains
           x.domain([0, d3.max(data, function(d) {
             return d.value;
           })]);
           y.domain(data.map(function(d) {
             return d.key;
-          }));
+          })).padding(0.1);
 
           // add the x Axis
           svg.append("g")
@@ -124,7 +123,7 @@
             .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
-              return y(d.area);
+              return y(d.key);
             })
             .attr("width", function(d) {
               return x(d.value);
