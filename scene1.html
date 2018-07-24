@@ -81,18 +81,12 @@
 
           console.log(JSON.stringify(data));
 
-          var GroupedByState = d3.nest()
-            .key(function(d) {
-              return d.state;
-            })
-            .entries(data);
-
           var StateIncidentCounts = d3.nest()
             .key(function(d) {
               return d.state;
             })
             .rollup(function(v) {
-              return v.frequency;
+            total: d3.sum(v, function(d) { return d.freq; }),
             })
             .entries(data);
 
