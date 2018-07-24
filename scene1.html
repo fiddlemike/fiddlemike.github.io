@@ -78,24 +78,23 @@
         // get the data
         d3.csv("data/gun-violence-data_01-2013_03-2018.csv", function(error, data) {
           if (error) throw error;
-        
-          var convertedData = d3.nest()
+
+          var GroupedByState = d3.nest()
             .key(function(d) {
-              return d["state"];
+              return d.state;
+            })
+            .entries(data);
+
+          var StateIncidentCounts = d3.nest()
+            .key(function(d) {
+              return d.state;
             })
             .rollup(function(v) {
-              return {
-                state: v[0]["state"],
-                count: d3.sum(v, function(d) {
-                  return +d["count"];
-                })
-              }
+              return v.length;
             })
-            .entries(data).map(function(d) {
-              return d.value
-            });
+            .entries(data);
 
-          console.log(convertedData);
+            console.log(JSON.stringify(StateIncidentCounts));
 
           // Scale the range of the data in the domains
           x.domain(data.map(function(d) {
