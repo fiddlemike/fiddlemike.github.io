@@ -40,7 +40,11 @@
 
   <main class "flex_container">
 
-  
+    <div class="menu sticky-top p-3 bg-light">
+      <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Essay</a>
+      <p>Test of secondary header</p>
+    </div>
+
     <div id="viz" class="barchart">
       <svg class="chart" width="960" height="500"></svg>
       <script>
@@ -55,10 +59,13 @@
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
 
+        var colorColumn = "key";
+
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
         // set the ranges
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleBand().range([height, 0]);
+        var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
         var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -98,7 +105,9 @@
           y.domain(data.map(function(d) {
             return d.key;
           })).padding(0.2);
-
+          colorScale.domain(data.map(function(d) {
+            return d[colorColumn];
+          }));
           // add the x Axis
           svg.append("g")
             .attr("class", "x axis")
@@ -115,6 +124,9 @@
           // add the y Axis
           svg.append("g")
             .attr("class", "y axis")
+            .selectAll("text")
+            .attr("dx", "-0.4em")
+            .attr("dy", "1.24em")
             .call(d3.axisLeft(y));
 
           // append the rectangles for the bar chart
@@ -130,6 +142,7 @@
             .attr("width", function(d) {
               return x(d.value);
             })
+            .attr("fill", function (d){ return colorScale(d[colorColumn]); })
             .on("mousemove", function(d) {
               tooltip
                 .style("left", d3.event.pageX - 50 + "px")
