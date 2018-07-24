@@ -41,7 +41,7 @@
   <main class="flex-container">
     <div class="sidebar-sticky sidebar">
       <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Essay</a>
-      <hr><br/>
+      <hr>
       <p>Test of side bar</p>
     </div>
 
@@ -78,23 +78,23 @@
         // get the data
         d3.csv("data/gun-violence-data_01-2013_03-2018.csv", function(error, data) {
           if (error) throw error;
-
           var counts = {};
           // count occurences of the state column
           data.forEach(function(d) {
-            if (!counts[d.state]) {
-              counts[d.state] = 0;
+            var state = d.state;
+            if (counts[state] === undefined) {
+              counts[state] = 0;
+            } else {
+              counts[state] = counts[state] + 1;
             }
-            counts[d.state]++;
           });
-          // convert this back into an array so it can be used with D3
-          var data = [];
-          Object.keys(counts).forEach(function(key) {
-            data.push({
-              state: key,
-              count: counts[key]
-            });
+          // now store the count in each data member
+          dataset.forEach(function(d) {
+            var state = d.value;
+            console.log(state);
+            d.count = counts[state];
           });
+          
           // Scale the range of the data in the domains
           x.domain(data.map(function(d) {
             return d.state;
