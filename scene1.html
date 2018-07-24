@@ -120,12 +120,10 @@
             .style("text-anchor", "middle")
             .text("Number of Incidents");
 
-          // text label for the x axis
+          // text label for the y axis
           svg.append("text")
-            .attr("x", 0)
-            .attr("y", (height + margin.bottom) / 2)
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
+            .attr("x", width + margin.top)
+            .attr("y", height / 2)
             .attr("transform", function(d) {
               return "rotate(-90)"
             })
