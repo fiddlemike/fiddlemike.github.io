@@ -14,7 +14,7 @@
   <link rel="import" href="./templates/head.html" id="head" onload="handleLoad(event)" onerror="handleError(event)">
   <link rel="import" href="./templates/footer.html" id="std-footer" onload="handleLoad(event)" onerror="handleError(event)">
   <link rel="import" href="./templates/header.html" id="std-header" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="stylesheet" href="css/scatterplot.css">
+  <link rel="stylesheet" href="css/barchart.css">
 
 </head>
 
@@ -41,12 +41,14 @@
   <main class="flex-container">
     <div class="sidebar-sticky sidebar">
       <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Essay</a>
-      <p>Test of side bar</P>
+      <hr><br/>
+      <p>Test of side bar</p>
     </div>
 
-    <div id="viz" class="scatterplot">
+    <div id="viz" class="barchart">
       <svg class="chart" width="960" height="500"></svg>
       <script>
+        // set the dimensions and margins of the graph
         var margin = {
             top: 20,
             right: 20,
@@ -56,105 +58,75 @@
           width = 960 - margin.left - margin.right,
           height = 500 - margin.top - margin.bottom;
 
-        var x = d3.scaleLinear()
-          .range([0, width]);
-
+        // set the ranges
+        var x = d3.scaleBand()
+          .range([0, width])
+          .padding(0.1);
         var y = d3.scaleLinear()
           .range([height, 0]);
 
-        var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-        var xAxis = d3.axisBottom(x);
-
-        var yAxis = d3.axisLeft(y);
-
-        var svg = d3.select(".chart").append("svg")
+        // append the svg object to the body of the page
+        // append a 'group' element to 'svg'
+        // moves the 'group' element to the top left margin
+        var svg = d3.select("body").append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.csv("data/gun-violence-data_01-2013_03-2018.csv", function(error, csv_data) {
-          var data = d3.nest()
-            .key(function(d) {
-              return d.state;
-            })
-            .rollup(function(d) {
-              return d3.sum(d, function(g) {
-                return g.value;
-              });
-            }).entries(csv_data);
+        // get the data
+        d3.csv("data/gun-violence-data_01-2013_03-2018.csv", function(error, data) {
+          if (error) throw error;
+
+          var counts = {};
+          // count occurences of the state column
           data.forEach(function(d) {
-            d.state = d.key;
-            d.value = d.values;
+            if (!counts[d.state]) {
+              counts[d.state] = 0;
+            }
+            counts[d.state]++;
           });
-
-          x.domain(d3.extent(data, function(d) {
+          // convert this back into an array so it can be used with D3
+          var data = [];
+          Object.keys(counts).forEach(function(key) {
+            data.push({
+              state: key,
+              count: counts[key]
+            });
+          });
+          // Scale the range of the data in the domains
+          x.domain(data.map(function(d) {
             return d.state;
-          })).nice();
-          y.domain(d3.extent(data, function(d) {
-            return d.value;
-          })).nice();
+          }));
+          y.domain([0, d3.max(data, function(d) {
+            return d.count;
+          })]);
 
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            .append("text")
-            .attr("class", "label")
-            .attr("x", width)
-            .attr("y", -6)
-            .style("text-anchor", "end")
-            .text("State");
-
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("class", "label")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Incidents")
-
-          svg.selectAll(".dot")
+          // append the rectangles for the bar chart
+          svg.selectAll(".bar")
             .data(data)
-            .enter().append("circle")
-            .attr("class", "dot")
-            .attr("r", 3.5)
-            .attr("cx", function(d) {
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) {
               return x(d.state);
             })
-            .attr("cy", function(d) {
-              return y(d.value);
+            .attr("width", x.bandwidth())
+            .attr("y", function(d) {
+              return y(d.count);
             })
-            .style("fill", function(d) {
-              return color(d.state);
+            .attr("height", function(d) {
+              return height - y(d.count);
             });
 
-          var legend = svg.selectAll(".legend")
-            .data(color.domain())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) {
-              return "translate(0," + i * 20 + ")";
-            });
+          // add the x Axis
+          svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
 
-          legend.append("rect")
-            .attr("x", width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", color);
-
-          legend.append("text")
-            .attr("x", width - 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "end")
-            .text(function(d) {
-              return d;
-            });
+          // add the y Axis
+          svg.append("g")
+            .call(d3.axisLeft(y));
 
         });
       </script>
