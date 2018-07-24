@@ -110,7 +110,6 @@
           }));
           // add the x Axis
           svg.append("g")
-            .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
 
@@ -123,10 +122,6 @@
 
           // add the y Axis
           svg.append("g")
-            .attr("class", "y axis")
-            .selectAll("text")
-            .attr("dx", "-0.4em")
-            .attr("dy", "1.24em")
             .call(d3.axisLeft(y));
 
           // append the rectangles for the bar chart
@@ -148,7 +143,7 @@
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
-                .html((d.key) + "<br>" + "Total Incidents: "+ (d.value));
+                .html("State: " + (d.key) + "<br>" + "Total Incidents: "+ (d.value));
             })
             .on("mouseout", function(d) {
               tooltip.style("display", "none");
