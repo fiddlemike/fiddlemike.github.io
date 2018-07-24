@@ -54,7 +54,7 @@
             top: 20,
             right: 10,
             bottom: 35,
-            left: 100
+            left: 80
           },
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
@@ -120,6 +120,18 @@
             .style("text-anchor", "middle")
             .text("Number of Incidents");
 
+          // text label for the x axis
+          svg.append("text")
+            .attr("x", 0)
+            .attr("y", (height + margin.bottom) / 2)
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+              return "rotate(-90)"
+            })
+            .style("text-anchor", "middle")
+            .text("US States");
+
           // add the y Axis
           svg.append("g")
             .call(d3.axisLeft(y));
@@ -137,13 +149,15 @@
             .attr("width", function(d) {
               return x(d.value);
             })
-            .attr("fill", function (d){ return colorScale(d[colorColumn]); })
+            .attr("fill", function(d) {
+              return colorScale(d[colorColumn]);
+            })
             .on("mousemove", function(d) {
               tooltip
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
-                .html("State: " + (d.key) + "<br>" + "Total Incidents: "+ (d.value));
+                .html("State: " + (d.key) + "<br>" + "Total Incidents: " + (d.value));
             })
             .on("mouseout", function(d) {
               tooltip.style("display", "none");
