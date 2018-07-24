@@ -28,7 +28,7 @@
 
   .flex-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     align-content: center;
   }
