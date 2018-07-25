@@ -42,7 +42,6 @@
   <main>
     <div id="viz" class="barchart">
       <svg width="960" height="500"></svg>
-      <script src="https://d3js.org/d3.v4.min.js"></script>
       <script>
         var svg = d3.select("svg"),
           margin = {
@@ -112,7 +111,7 @@
           // text label for the x axis
           svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height)
+            .attr("y", height + margin.bottom + 10)
             .style("text-anchor", "middle")
             .text("Number of Incidents");
 
@@ -120,6 +119,18 @@
           g.append("g")
             .attr("class", "y axis")
             .call(d3.axisLeft(y));
+            
+          // text label for the y axis
+          svg.append("text")
+            .attr("x", 0 - (height / 2))
+            .attr("y", 0 - margin.left)
+            .attr("dy", "1em")
+            .attr("transform", function(d) {
+              return "rotate(-90)"
+            })
+            .style("fill", "black")
+            .style("text-anchor", "middle")
+            .text("US States");
 
           g.selectAll(".bar")
             .data(data)
