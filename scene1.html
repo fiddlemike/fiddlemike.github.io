@@ -38,19 +38,7 @@
       </div>
     </nav>
   </header>
-  <div id="test" class="toolbar">
-    <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Essay</a>
-    <label for="yearSelector">Incident Year</label>
-    <select name="yearSelector" id="yearSelector">
-      <option value="All">All</option>
-      <option value="2013">2013</option>
-      <option value="2014">2014</option>
-      <option value="2015">2015</option>
-      <option value="2016">2016</option>
-      <option value="2017">2017</option>
-      <option value="2018">2018</option>
-    </select>
-  </div>
+  <div id="drop" class="toolbar"></div>
   <main>
     <div id="viz" class="barchart">
       <svg width="960" height="500"></svg>
@@ -191,6 +179,51 @@
           .style("font-size", "16px")
           .style("text-decoration", "underline")
           .text("US Gun Violence 2013-2018");
+
+        var selector = d3.select("#drop")
+          .append("select")
+          .attr("id", "dropdown")
+          .on("change", function(d) {
+            selection = document.getElementById("dropdown");
+
+            y.domain([0, d3.max(data, function(d) {
+              return +d[selection.value];
+            })]);
+
+            yAxis.scale(y);
+
+            d3.selectAll(".rectangle")
+              .transition()
+              .attr("height", function(d) {
+                return height - y(+d[selection.value]);
+              })
+              .attr("x", function(d, i) {
+                return (width / data.length) * i;
+              })
+              .attr("y", function(d) {
+                return y(+d[selection.value]);
+              })
+              .ease("linear")
+              .select("title")
+              .text(function(d) {
+                return d.State + " : " + d[selection.value];
+              });
+
+            d3.selectAll("g.y.axis")
+              .transition()
+              .call(yAxis);
+
+          });
+
+        selector.selectAll("option")
+          .data(elements)
+          .enter().append("option")
+          .attr("value", function(d) {
+            return d;
+          })
+          .text(function(d) {
+            return d;
+          })
       </script>
     </div>
 
