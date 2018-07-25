@@ -69,14 +69,9 @@
         // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
-
-        // D3 scales = just math
-        // x is a function that transforms from "domain" (data) into "range" (usual pixels)
-        // domain gets set after the data loads
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleBand().range([height, 0]);
         var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
-
 
         var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -171,17 +166,9 @@
                 .style("display", "inline-block")
                 .html("State: " + (d.key) + "<br>" + "Total Incidents: " + (d.value));
             })
-            .on("mouseover", function() {
-              d3.select(this)
-                .attr("fill", "red");
-            })
-            .on("mouseout", function(d, i) {
-              d3.select(this).attr("fill", function() {
-                return "" + color(this.id) + "";
-              });
+            .on("mouseout", function(d) {
               tooltip.style("display", "none");
             });
-
         });
         // Add chart title
         g.append("text")
