@@ -1,15 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<script>
-  function handleLoad(e) {
-    console.log('Loaded import: ' + e.target.href);
-  }
-
-  function handleError(e) {
-    console.log('Error loading import: ' + e.target.href);
-  }
-</script>
-
 <head>
   <meta charset="UTF-8">
   <title>Michael Machado - Visualizations</title>
@@ -72,18 +62,37 @@
         var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.json("data/data.json", function(error, data) {
-          if (error) throw error;
+          d3.csv("data/incidents_by_year_and_state.csv", function(d) {
+            return {
+              year: d.year,
+              state: d.state,
+              freq: +d.freq // convert "freq" column to number
+            };
+          }, function(error, csv_data) {
+            if (error) throw error;
 
-          data.sort(function(a, b) {
-            return a.value - b.value;
-          });
+            // console.log(data);
+            var data = d3.nest()
+              .key(function(d) {
+                return d.state;
+              })
+              .rollup(function(d) {
+                return d3.sum(d, function(g) {
+                  return g.freq;
+                });
+              }).entries(csv_data);
 
+            /* Sort from highest to lowest*/
+            data.sort(function(a, b) {
+              return a.value - b.value;
+            });
+
+            console.log(data);
           x.domain([0, d3.max(data, function(d) {
             return d.value;
           })]);
           y.domain(data.map(function(d) {
-            return d.area;
+            return d.state;
           })).padding(0.1);
 
           g.append("g")
@@ -104,7 +113,7 @@
             .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
-              return y(d.area);
+              return y(d.state);
             })
             .attr("width", function(d) {
               return x(d.value);
@@ -114,7 +123,7 @@
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
-                .html((d.area) + "<br>" + "£" + (d.value));
+                .html((d.state) + "<br>" + "£" + (d.value));
             })
             .on("mouseout", function(d) {
               tooltip.style("display", "none");
