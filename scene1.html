@@ -149,7 +149,7 @@
               return y(d.key);
             })
             .attr("width", function(d) {
-              return x(d.value);
+              return x(d.freq);
             })
             .attr("fill", function(d) {
               return colorScale(d[colorColumn]);
@@ -210,13 +210,13 @@
           });
 
         selector.selectAll("option")
-          .data(elements)
+          .data(data)
           .enter().append("option")
           .attr("value", function(d) {
-            return d;
+            return d.year;
           })
           .text(function(d) {
-            return d;
+            return d.year;
           })
 
         // Add chart title
