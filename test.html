@@ -48,13 +48,14 @@
           margin = {
             top: 20,
             right: 20,
-            bottom: 30,
-            left: 80
+            bottom: 35,
+            left: 100
           },
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
         // Set the data value to use for color
         var colorColumn = "key";
+        // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
         var x = d3.scaleLinear().range([0, width]);
@@ -105,16 +106,16 @@
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
-              return parseInt(d / 1000);
+              return parseInt(d);
             }).tickSizeInner([-height]));
 
           // text label for the x axis
           svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height + margin.bottom)
+            .attr("y", height)
             .style("text-anchor", "middle")
             .text("Number of Incidents");
-            
+
           // add the y axis
           g.append("g")
             .attr("class", "y axis")
