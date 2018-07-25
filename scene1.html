@@ -51,7 +51,7 @@
       <svg class="chart" width="960" height="500"></svg>
       <script>
         // set the dimensions and margins of the graph
-        var svg = d3.select("svg"),
+        var svg = d3.select(".chart"),
           margin = {
             top: 20,
             right: 10,
@@ -130,6 +130,7 @@
             .attr("transform", function(d) {
               return "rotate(-90)"
             })
+            .style("fill", "black")
             .style("text-anchor", "middle")
             .text("US States");
 
