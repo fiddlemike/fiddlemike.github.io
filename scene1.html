@@ -88,14 +88,14 @@
             return b.freq - a.freq;
           });
 
-          // Get every column value
-          var elements = Object.keys(data[0])
-            .filter(function(d) {
-              return ((d != "freq") & (d != "state"));
-            });
-          var selection = elements[0];
+          var elements = d3.keys(d3.nest()
+            .key(function(d) {
+              return d.year;
+            })
+            .map(data));
 
           console.log(data);
+          console.log(elements);
 
           x.domain([0, d3.max(data, function(d) {
             return d.freq;
@@ -213,10 +213,10 @@
           .data(elements)
           .enter().append("option")
           .attr("value", function(d) {
-            return d.year;
+            return d;
           })
           .text(function(d) {
-            return d.year;
+            return d;
           })
 
         // Add chart title
