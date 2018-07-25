@@ -167,9 +167,9 @@
 
 
           var selector = d3.select("#drop")
+            .append("label", "Incident Year")
             .append("select")
             .attr("id", "dropdown")
-            .append("label", 'Incident Years')
             .on("change", function(d) {
               selection = document.getElementById("dropdown");
 
