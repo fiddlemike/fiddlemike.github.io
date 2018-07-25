@@ -48,7 +48,7 @@
             top: 20,
             right: 20,
             bottom: 35,
-            left: 100
+            left: 120
           },
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
@@ -109,7 +109,7 @@
             }).tickSizeInner([-height]));
 
           // text label for the x axis
-          svg.append("text")
+          g.append("text")
             .attr("x", width / 2)
             .attr("y", height + margin.bottom + 10)
             .style("text-anchor", "middle")
@@ -119,9 +119,9 @@
           g.append("g")
             .attr("class", "y axis")
             .call(d3.axisLeft(y));
-            
+
           // text label for the y axis
-          svg.append("text")
+          g.append("text")
             .attr("x", 0 - (height / 2))
             .attr("y", 0 - margin.left)
             .attr("dy", "1em")
@@ -158,6 +158,14 @@
               tooltip.style("display", "none");
             });
         });
+        // Add chart title
+        g.append("text")
+          .attr("x", (width / 2))
+          .attr("y", 0 - (margin.top / 2))
+          .attr("text-anchor", "middle")
+          .style("font-size", "16px")
+          .style("text-decoration", "underline")
+          .text("US Gun Violence 2013-2018");
       </script>
     </div>
 
