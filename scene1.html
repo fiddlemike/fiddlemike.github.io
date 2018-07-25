@@ -56,7 +56,7 @@
             top: 20,
             right: 10,
             bottom: 35,
-            left: 80
+            left: 200
           },
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
@@ -110,6 +110,7 @@
           colorScale.domain(data.map(function(d) {
             return d[colorColumn];
           }));
+
           // add the x Axis
           svg.append("g")
             .attr("class", "x axis")
