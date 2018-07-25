@@ -191,34 +191,54 @@
             .attr("id", "dropdown")
             .on("change", function(d) {
               selection = document.getElementById("dropdown");
-
-              y.domain([0, d3.max(data, function(d) {
-                return +d[selection.value];
+              // filter by year.
+              var data = csv_data.filter(function(d) {
+                return d.year == selection;
+              });
+              /* Sort from lowest to highest  */
+              data.sort(function(a, b) {
+                return b.freq - a.freq;
+              });
+              y.domain(data.map(function(d) {
+                return d.state;
+              })).padding(0.2);
+              x.domain([0, d3.max(data, function(d) {
+                return d.freq;
               })]);
 
-              yAxis.scale(y);
-
-              d3.selectAll(".rectangle")
+              d3.selectAll(".bar")
                 .transition()
-                .attr("height", function(d) {
-                  return height - y(+d[selection.value]);
-                })
-                .attr("x", function(d, i) {
-                  return (width / data.length) * i;
-                })
+                .data(data)
+                .attr("class", "bar")
+                .attr("x", 0)
+                .attr("height", y.bandwidth())
                 .attr("y", function(d) {
-                  return y(+d[selection.value]);
+                  return y(d.state);
                 })
-                .ease("linear")
-                .select("title")
-                .text(function(d) {
-                  return d.State + " : " + d[selection.value];
-                });
-
-              d3.selectAll("g.y.axis")
-                .transition()
-                .call(yAxis);
-
+                .attr("width", function(d) {
+                  return x(d.freq);
+                })
+                .attr("fill", function(d) {
+                  return colorScale(d[colorColumn]);
+                })
+                .on("mousemove", function(d) {
+                  tooltip
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
+                })
+                .on("mouseover", function() {
+                  d3.select(this)
+                    .attr("fill", "black");
+                })
+                .on("mouseout", function(d, i) {
+                  d3.select(this).attr("fill", function() {
+                    return "" + colorScale(d[colorColumn]) + "";
+                  });
+                  tooltip.style("display", "none");
+                })
+                .ease("linear");
             });
 
           // Map the values for the drop down
