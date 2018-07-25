@@ -216,13 +216,13 @@
           });
 
         selector.selectAll("option")
-          .data(elements)
+          .data(data)
           .enter().append("option")
           .attr("value", function(d) {
-            return d;
+            return d.state;
           })
           .text(function(d) {
-            return d;
+            return d.state;
           })
       </script>
     </div>
