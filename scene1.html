@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src = "js/dropdown_options.js"></script>
   <link rel="stylesheet" href="css/custom.css">
   <link rel="stylesheet" href="css/barchart.css">
 
@@ -38,7 +39,7 @@
       </div>
     </nav>
   </header>
-  <div id="drop" class="toolbar"></div>
+  <div id="dropdown" class="toolbar"></div>
   <main>
     <div id="viz" class="barchart">
       <svg width="960" height="500"></svg>
@@ -52,6 +53,20 @@
           },
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
+
+        // populate drop-down
+        d3.select("#dropdown")
+          .selectAll("option")
+          .data(dropdown_options)
+          .enter()
+          .append("option")
+          .attr("value", function(option) {
+            return option.value;
+          })
+          .text(function(option) {
+            return option.text;
+          });
+
         // Set the data value to use for color
         var colorColumn = "key";
         // Add the tooltip
@@ -180,18 +195,7 @@
           .style("text-decoration", "underline")
           .text("US Gun Violence 2013-2018");
 
-        var selector = d3.select("#drop")
-          .append("select")
-          .attr("id", "dropdown")
-          .on('change', onchange);
-
-        var options = select
-          .selectAll('option')
-          .data(csv_data).enter()
-          .append('option')
-          .text(function(d) {
-            return d.year;
-          });
+        });
       </script>
     </div>
 
