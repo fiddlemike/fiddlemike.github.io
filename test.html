@@ -109,8 +109,8 @@
             }).tickSizeInner([-height]));
 
           // text label for the x axis
-          svg.append("text")
-            .attr("x", (width / 2) + 50)
+          g.append("text")
+            .attr("x", width / 2)
             .attr("y", height + margin.bottom + 40)
             .style("text-anchor", "middle")
             .text("Number of Incidents");
