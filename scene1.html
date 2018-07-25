@@ -125,8 +125,9 @@
 
           // text label for the y axis
           svg.append("text")
-            .attr("x", 0 - (height/2)))
-            .attr("y", 0)
+            .attr("x", 0 - (height/2))
+            .attr("y", 0 - margin.left)
+            .attr("dy", "1em")
             .attr("transform", function(d) {
               return "rotate(-90)"
             })
