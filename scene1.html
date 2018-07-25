@@ -11,34 +11,44 @@
 </script>
 
 <head>
-  <link rel="import" href="./templates/head.html" id="head" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="./templates/footer.html" id="std-footer" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="import" href="./templates/header.html" id="std-header" onload="handleLoad(event)" onerror="handleError(event)">
-  <link rel="stylesheet" href="css/barchart.css">
+  <<meta charset="UTF-8">
+    <title>Michael Machado - Visualizations</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="css/barchart.css">
 
 </head>
 
 <body class="container">
   <header id="header">
-    <script>
-      // Get the link element that references the header.html file.
-      var headerTemplate = document.getElementById('std-header');
-      // Retrieve the loaded templates.
-      var templates = headerTemplate.import
-      // Get the template.
-      var template = templates.getElementById('std-header');
-      if (template) {
-        // Clone the templates contents
-        var clone = document.importNode(template.content, true);
-        // Add the template code to the page header
-        document.getElementById('header').appendChild(clone);
-      } else {
-        console.log('unable to access template.');
-      }
-    </script>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <a class="navbar-brand" href="https://d3js.org/" target="_blank">
+                <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+                D3 is fun
+            </a>
+
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/scene1">Scene 1</a></li>
+            <li><a href="/essay">Essay</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
   </header>
 
-  <main class "flex_container">
+  <main class="flex_container">
 
     <div id="viz" class="barchart">
       <svg class="chart" width="960" height="500"></svg>
@@ -119,7 +129,7 @@
 
           // text label for the y axis
           svg.append("text")
-            .attr("x", 0 - (height/2))
+            .attr("x", 0 - (height / 2))
             .attr("y", 0 - margin.left)
             .attr("dy", "1em")
             .attr("transform", function(d) {
@@ -131,7 +141,7 @@
 
           // add the y Axis
           svg.append("g")
-          .attr("class", "y axis")
+            .attr("class", "y axis")
             .call(d3.axisLeft(y));
 
           // append the rectangles for the bar chart
@@ -168,22 +178,8 @@
   </main>
 
   <footer id="footer">
-    <script>
-      // Get the link element that references the header.html file.
-      var footerTemplate = document.getElementById('std-footer');
-      // Retrieve the loaded templates.
-      var templates = footerTemplate.import
-      // Get the template.
-      var template = templates.getElementById('std-footer');
-      if (template) {
-        // Clone the templates contents
-        var clone = document.importNode(template.content, true);
-        // Add the template code to the page header
-        document.getElementById('footer').appendChild(clone);
-      } else {
-        console.log('unable to access template.');
-      }
-    </script>
+    <hr>
+    <p class="text-center text-muted">© Copyright 2018 Michael Machado</p>
   </footer>
 
 
