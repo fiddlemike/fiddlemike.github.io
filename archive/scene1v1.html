@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src = "js/dropdown_options.js"></script>
   <link rel="stylesheet" href="css/custom.css">
   <link rel="stylesheet" href="css/barchart.css">
 
@@ -38,7 +39,17 @@
       </div>
     </nav>
   </header>
-  <div id="drop" class="toolbar" align="center">
+  <div id="dropdown" class="toolbar">
+    <label for="yearSelector">Incident Year</label>
+    <select name="yearSelector" id="yearSelector">
+      <option value="2013">2013</option>
+      <option value="2014">2014</option>
+      <option value="2015">2015</option>
+      <option value="2016">2016</option>
+      <option value="2017">2017</option>
+      <option value="2018">2018</option>
+    </select>
+
   </div>
   <main>
     <div id="viz" class="barchart">
@@ -55,7 +66,7 @@
           height = +svg.attr("height") - margin.top - margin.bottom;
 
         // Set the data value to use for color
-        var colorColumn = "state";
+        var colorColumn = "key";
         // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
@@ -79,29 +90,29 @@
           };
         }, function(error, csv_data) {
           if (error) throw error;
-          // filter by year. Default to 2013
-          var data = csv_data.filter(function(d) {
-            return d.year == '2013';
-          });
-          /* Sort from lowest to highest  */
-          data.sort(function(a, b) {
-            return b.freq - a.freq;
-          });
 
-          var elements = d3.keys(d3.nest()
+          // console.log(data);
+          var data = d3.nest()
             .key(function(d) {
-              return d.year;
+              return d.state;
             })
-            .map(data));
+            .rollup(function(d) {
+              return d3.sum(d, function(g) {
+                return g.freq;
+              });
+            }).entries(csv_data);
+
+          /* Sort from highest to lowest*/
+          data.sort(function(a, b) {
+            return a.value - b.value;
+          });
 
           console.log(data);
-          console.log(elements);
-
           x.domain([0, d3.max(data, function(d) {
-            return d.freq;
+            return d.value;
           })]);
           y.domain(data.map(function(d) {
-            return d.state;
+            return d.key;
           })).padding(0.2);
           colorScale.domain(data.map(function(d) {
             return d[colorColumn];
@@ -146,10 +157,10 @@
             .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
-              return y(d.state);
+              return y(d.key);
             })
             .attr("width", function(d) {
-              return x(d.freq);
+              return x(d.value);
             })
             .attr("fill", function(d) {
               return colorScale(d[colorColumn]);
@@ -159,7 +170,7 @@
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
-                .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
+                .html("State: " + (d.key) + "<br>" + "Total Incidents: " + (d.value));
             })
             .on("mouseover", function() {
               d3.select(this)
@@ -172,55 +183,7 @@
               tooltip.style("display", "none");
             });
 
-
-          var selector = d3.select("#drop")
-            .append("select")
-            .attr("id", "dropdown")
-            .on("change", function(d) {
-              selection = document.getElementById("dropdown");
-
-              y.domain([0, d3.max(data, function(d) {
-                return +d[selection.value];
-              })]);
-
-              yAxis.scale(y);
-
-              d3.selectAll(".rectangle")
-                .transition()
-                .attr("height", function(d) {
-                  return height - y(+d[selection.value]);
-                })
-                .attr("x", function(d, i) {
-                  return (width / data.length) * i;
-                })
-                .attr("y", function(d) {
-                  return y(+d[selection.value]);
-                })
-                .ease("linear")
-                .select("title")
-                .text(function(d) {
-                  return d.State + " : " + d[selection.value];
-                });
-
-              d3.selectAll("g.y.axis")
-                .transition()
-                .call(yAxis);
-
-            });
-
-          selector.selectAll("option")
-            .data(elements)
-            .enter().append("option")
-            .attr("value", function(d) {
-              return d;
-            })
-            .text(function(d) {
-              return d;
-            })
         });
-
-
-
         // Add chart title
         g.append("text")
           .attr("x", (width / 2))
