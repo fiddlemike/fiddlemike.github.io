@@ -56,12 +56,12 @@
         var svg = d3.select(".chart"),
           margin = {
             top: 20,
-            right: 35,
+            right: 50,
             bottom: 35,
-            left: 0
+            left: 50
           },
-          width = 960 - margin.left - margin.right,
-          height = 500 - margin.top - margin.bottom;
+          width = +svg.attr("width")  - margin.left - margin.right,
+          height = +svg.attr("height")  - margin.top - margin.bottom;
         // Set the data value to use for color
         var colorColumn = "key";
         // Add the tooltip
@@ -97,7 +97,7 @@
 
           /* Sort from highest to lowest*/
           data.sort(function(a, b) {
-            return b.value - a.value;
+            return a.value - b.value;
           });
 
           console.log(data);
