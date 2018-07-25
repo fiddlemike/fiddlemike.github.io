@@ -84,7 +84,7 @@
           };
         }, function(error, popest_data) {
           if (error) throw error;
-           console.log(popest_data[0]);
+          console.log(popest_data[0]);
         });
 
 
@@ -192,23 +192,23 @@
             .on("change", function(d) {
               selection = document.getElementById("dropdown");
               // filter by year.
-              var data = csv_data.filter(function(d) {
-                return d.year == parseInt(selection);
+              var filtered_data = csv_data.filter(function(d) {
+                return d.year == selection;
               });
-              console.log(data);
+              console.log(filtered_data);
               /* Sort from lowest to highest  */
-              data.sort(function(a, b) {
+              filtered_data.sort(function(a, b) {
                 return b.freq - a.freq;
               });
-              y.domain(data.map(function(d) {
+              y.domain(filtered_data.map(function(d) {
                 return d.state;
               })).padding(0.2);
-              x.domain([0, d3.max(data, function(d) {
+              x.domain([0, d3.max(filtered_data, function(d) {
                 return d.freq;
               })]);
 
               d3.selectAll(".bar")
-                .transition()
+                .data(filtered_data)
                 .attr("class", "bar")
                 .attr("x", 0)
                 .attr("height", y.bandwidth())
@@ -221,6 +221,7 @@
                 .attr("fill", function(d) {
                   return colorScale(d[colorColumn]);
                 })
+                .transition();
             });
 
           // Map the values for the drop down
