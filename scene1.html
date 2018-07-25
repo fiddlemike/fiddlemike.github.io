@@ -159,7 +159,7 @@
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
-                .html("State: " + (d.key) + "<br>" + "Total Incidents: " + (d.value));
+                .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
             })
             .on("mouseover", function() {
               d3.select(this)
@@ -210,7 +210,7 @@
           });
 
         selector.selectAll("option")
-          .data(data)
+          .data(elements)
           .enter().append("option")
           .attr("value", function(d) {
             return d.year;
