@@ -88,14 +88,7 @@
             return b.freq - a.freq;
           });
 
-          var elements = d3.keys(d3.nest()
-            .key(function(d) {
-              return d.year;
-            })
-            .map(data));
-
           console.log(data);
-          console.log(elements);
 
           x.domain([0, d3.max(data, function(d) {
             return d.freq;
@@ -209,7 +202,7 @@
             });
 
           selector.selectAll("option")
-            .data(elements)
+            .data(d3.map(data, function(d){return d.year;}).keys())
             .enter().append("option")
             .attr("value", function(d) {
               return d;
