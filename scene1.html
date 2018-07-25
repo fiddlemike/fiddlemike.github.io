@@ -165,9 +165,11 @@
               tooltip.style("display", "none");
             });
 
+          // Add a label for the drop down
+          d3.select("#drop").append("label", "Incident Year");
 
+         // add the drop down
           var selector = d3.select("#drop")
-            .append("label", "Incident Year")
             .append("select")
             .attr("id", "dropdown")
             .on("change", function(d) {
@@ -202,8 +204,11 @@
 
             });
 
+          // Map the values for the drop down
           selector.selectAll("option")
-            .data(d3.map(csv_data, function(d){return d.year;}).keys())
+            .data(d3.map(csv_data, function(d) {
+              return d.year;
+            }).keys())
             .enter().append("option")
             .attr("value", function(d) {
               return d;
