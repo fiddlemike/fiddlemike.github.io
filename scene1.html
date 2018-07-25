@@ -146,7 +146,7 @@
             .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
-              return y(d.key);
+              return y(d.state);
             })
             .attr("width", function(d) {
               return x(d.freq);
