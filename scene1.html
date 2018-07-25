@@ -221,23 +221,6 @@
                 .attr("fill", function(d) {
                   return colorScale(d[colorColumn]);
                 })
-                .on("mousemove", function(d) {
-                  tooltip
-                    .style("left", d3.event.pageX - 50 + "px")
-                    .style("top", d3.event.pageY - 70 + "px")
-                    .style("display", "inline-block")
-                    .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
-                })
-                .on("mouseover", function() {
-                  d3.select(this)
-                    .attr("fill", "black");
-                })
-                .on("mouseout", function(d, i) {
-                  d3.select(this).attr("fill", function() {
-                    return "" + colorScale(d[colorColumn]) + "";
-                  });
-                  tooltip.style("display", "none");
-                })
                 .ease("linear");
             });
 
