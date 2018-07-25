@@ -56,15 +56,15 @@
         var svg = d3.select(".chart"),
           margin = {
             top: 20,
-            right: 0,
+            right: 35,
             bottom: 35,
             left: 0
           },
-          width = +svg.attr("width") - margin.left - margin.right,
-          height = +svg.attr("height") - margin.top - margin.bottom;
-
+          width = 960 - margin.left - margin.right,
+          height = 500 - margin.top - margin.bottom;
+        // Set the data value to use for color
         var colorColumn = "key";
-
+        // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
         // set the ranges
         var x = d3.scaleLinear().range([0, width]);
