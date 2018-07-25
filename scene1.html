@@ -193,7 +193,7 @@
               selection = document.getElementById("dropdown");
               // filter by year.
               var data = csv_data.filter(function(d) {
-                return d.year == selection;
+                return d.year == parseInt(selection);
               });
               console.log(data);
               /* Sort from lowest to highest  */
@@ -221,7 +221,6 @@
                 .attr("fill", function(d) {
                   return colorScale(d[colorColumn]);
                 })
-                .ease("linear")
             });
 
           // Map the values for the drop down
