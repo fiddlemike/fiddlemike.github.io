@@ -173,11 +173,11 @@
             })
             .on("mouseover", function() {
               d3.select(this)
-                .attr("fill", "red");
+                .attr("fill", "black");
             })
             .on("mouseout", function(d, i) {
               d3.select(this).attr("fill", function() {
-                return "" + color(this.id) + "";
+                return "" + colorScale(d[colorColumn]) + "";
               });
               tooltip.style("display", "none");
             });
