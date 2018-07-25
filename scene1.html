@@ -42,6 +42,7 @@
 
     <div class="w3-sidebar w3-bar-block" style="width:20%">
       <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Essay</a>
+      <hr>
       <p>Test of secondary header</p>
     </div>
 
@@ -50,7 +51,7 @@
       <svg class="chart" width="960" height="500"></svg>
       <script>
         // set the dimensions and margins of the graph
-        var svg = d3.select(".chart"),
+        var svg = d3.select("svg"),
           margin = {
             top: 20,
             right: 10,
@@ -111,6 +112,7 @@
           }));
           // add the x Axis
           svg.append("g")
+            .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
 
@@ -133,6 +135,7 @@
 
           // add the y Axis
           svg.append("g")
+          .attr("class", "y axis")
             .call(d3.axisLeft(y));
 
           // append the rectangles for the bar chart
