@@ -71,6 +71,21 @@
         var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        d3.csv("data/nst-est2017-alldata.csv", function(d) {
+          return {
+            state: d.state,
+            py_2012: +d.py_2012, // convert "population column"  to a number
+            py_2013: +d.py_2013, // convert "population column"  to a number
+            py_2014: +d.py_2014, // convert "population column"  to a number
+            py_2015: +d.py_2015, // convert "population column"  to a number
+            py_2016: +d.py_2016, // convert "population column"  to a number
+            py_2017: +d.py_2017, // convert "population column"  to a number
+            py_2018: +d.py_2018, // convert "population column"  to a number
+        }, function(error, popest_data) {
+          if (error) throw error;
+        });
+        console.log(popest_data);
+
         d3.csv("data/incidents_by_year_and_state.csv", function(d) {
           return {
             year: d.year,
@@ -168,7 +183,7 @@
           // Add a label for the drop down
           d3.select("#drop").append("label").text("Incident Year: ");
 
-         // add the drop down
+          // add the drop down
           var selector = d3.select("#drop")
             .append("select")
             .attr("id", "dropdown")
