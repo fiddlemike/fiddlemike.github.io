@@ -202,7 +202,7 @@
             });
 
           selector.selectAll("option")
-            .data(d3.map(data, function(d){return d.year;}).keys())
+            .data(d3.map(csv_data, function(d){return d.year;}).keys())
             .enter().append("option")
             .attr("value", function(d) {
               return d;
