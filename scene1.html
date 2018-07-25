@@ -195,6 +195,7 @@
               var data = csv_data.filter(function(d) {
                 return d.year == selection;
               });
+              console.log(data);
               /* Sort from lowest to highest  */
               data.sort(function(a, b) {
                 return b.freq - a.freq;
@@ -208,7 +209,6 @@
 
               d3.selectAll(".bar")
                 .transition()
-                .data(data)
                 .attr("class", "bar")
                 .attr("x", 0)
                 .attr("height", y.bandwidth())
@@ -254,8 +254,6 @@
               return d;
             })
         });
-
-
 
         // Add chart title
         g.append("text")
