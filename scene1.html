@@ -183,47 +183,15 @@
         var selector = d3.select("#drop")
           .append("select")
           .attr("id", "dropdown")
-          .on("change", function(d) {
-            selection = document.getElementById("dropdown");
+          .on('change', onchange);
 
-            y.domain([0, d3.max(data, function(d) {
-              return +d[selection.value];
-            })]);
-
-            yAxis.scale(y);
-
-            d3.selectAll(".rectangle")
-              .transition()
-              .attr("height", function(d) {
-                return height - y(+d[selection.value]);
-              })
-              .attr("x", function(d, i) {
-                return (width / data.length) * i;
-              })
-              .attr("y", function(d) {
-                return y(+d[selection.value]);
-              })
-              .ease("linear")
-              .select("title")
-              .text(function(d) {
-                return d.State + " : " + d[selection.value];
-              });
-
-            d3.selectAll("g.y.axis")
-              .transition()
-              .call(yAxis);
-
-          });
-
-        selector.selectAll("option")
-          .data(data)
-          .enter().append("option")
-          .attr("value", function(d) {
-            return d.state;
-          })
+        var options = select
+          .selectAll('option')
+          .data(csv_data).enter()
+          .append('option')
           .text(function(d) {
-            return d.state;
-          })
+            return d.year;
+          });
       </script>
     </div>
 
