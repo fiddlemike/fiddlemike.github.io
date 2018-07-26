@@ -183,12 +183,6 @@
             .text("US States");
 
 
-
-          dispatch.on("statechange.bar", function(d) {
-            rect.transition()
-              .attr("x", y(d.freq))
-              .attr("width", x(0) - x(d.freq));
-          });
         });
       </script>
     </div>
