@@ -148,10 +148,10 @@
             return b.freq - a.freq;
           });
           // calculate the domains
-          x.domain([0, d3.max(filteredData, function(d) {
+          xScale.domain([0, d3.max(filteredData, function(d) {
             return d.freq;
           })]);
-          y.domain(filteredData.map(function(d) {
+          yScale.domain(filteredData.map(function(d) {
             return d.state;
           })).padding(0.2);
           colorScale.domain(filteredData.map(function(d) {
@@ -172,13 +172,12 @@
           // Add the x axis
           svg.append("g")
             .attr("class", "x axis")
-           .call(xAxis);
+            .call(xAxis);
 
           // add the y axis
           svg.append("g")
             .attr("class", "y axis")
-          .call(yAxis);
-
+            .call(yAxis);
 
           // remove the previous bars
           svg.selectAll(".bar").remove();
