@@ -72,7 +72,7 @@
               // call our dispatch events with `this` context, and corresponding data
               dispatch.call("load", this, map);
               dispatch.call("statechange", this, map.get(defaultYear));
-            }
+            });
 
             // A drop-down menu for selecting a state; uses the "menu" namespace.
             // register a listener for "load" and create a dropdown / select element
