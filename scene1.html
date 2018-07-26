@@ -117,7 +117,7 @@
             .append("select")
             .attr("id", "dropdown")
             .on("change", function(d) {
-              selection = document.getElementById("dropdown");
+              selection = document.getElementById("dropdown").value;
               renderChart(selection, csv_data);
             });
 
