@@ -161,10 +161,10 @@
           }));
          // Add a anotation
           svg.append("text")
-            .attr("x", width - 50)
+            .attr("x", width - 100)
             .attr("y", height/2)
             .style("text-anchor", "middle")
-            .text("Data displayed id for the year "+ year);
+            .text("Data displayed is for the year "+ year);
 
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
           var yAxis = d3.axisLeft().scale(y);
