@@ -169,15 +169,13 @@
             .tickSizeInner([-height])
             .scale(x);
 
+          var t = d3.transition().duration(500);
           // Add the x axis
-          svg.append("g")
-            .attr("class", "x axis")
-            .call(xAxis);
-
+          svg.append("g").attr("class", "x axis");
+          svg.select(".x").transition(t).call(xAxis);
           // add the y axis
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
+          svg.append("g").attr("class", "y axis");
+          svg.select(".y").transition(t).call(yAxis);
 
           // remove the previous bars
           svg.selectAll(".bar").remove();
