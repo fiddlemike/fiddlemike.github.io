@@ -56,60 +56,56 @@
 
         // load our data! When done call our dispatch events with corresponding data
         d3.csv("data/incidents_by_year_and_state.csv", function(d) {
-              return {
-                year: d.year,
-                state: d.state,
-                freq: +d.freq // // coerce values forfrequency to be numeric
-              };
-            }, function(error, csv_data) {
-              if (error) throw error;
-              // construct a new d3 map, not as in geographic map,
-              // but more like a "hash"
-              var map = d3.map(nested, function(d) {
-                return d.year;
-              });
+          return {
+            year: d.year,
+            state: d.state,
+            freq: +d.freq // // coerce values forfrequency to be numeric
+          };
+        }, function(error, csv_data) {
+          if (error) throw error;
+          // construct a new d3 map, not as in geographic map,
+          // but more like a "hash"
+          var map = d3.map(csv_data, function(d) {
+            return d.year;
+          });
 
-              // call our dispatch events with `this` context, and corresponding data
-              dispatch.call("load", this, map);
-              dispatch.call("statechange", this, map.get(defaultYear));
+          // call our dispatch events with `this` context, and corresponding data
+          dispatch.call("load", this, map);
+          dispatch.call("statechange", this, map.get(defaultYear));
+        });
+
+        // A drop-down menu for selecting a state; uses the "menu" namespace.
+        // register a listener for "load" and create a dropdown / select element
+        dispatch.on("load.menu", function(map) {
+          // create select dropdown, attach a native DOM event listener "change"
+          // that will invoke dispatch.call with a "statechange" event
+          var select = d3.select("#drop")
+            .append("select")
+            .on("change", function() {
+              var site = this.value;
+              dispatch.call(
+                "statechange",
+                this,
+                map.get(site)
+              );
             });
 
-            // A drop-down menu for selecting a state; uses the "menu" namespace.
-            // register a listener for "load" and create a dropdown / select element
-            dispatch.on("load.menu", function(map) {
-              // create select dropdown, attach a native DOM event listener "change"
-              // that will invoke dispatch.call with a "statechange" event
-              var select = d3.select("#drop")
-                .append("select")
-                .on("change", function() {
-                  var site = this.value;
-                  dispatch.call(
-                    "statechange",
-                    this,
-                    map.get(site)
-                  );
-                });
-
-              // append options to select dropdown
-              select.selectAll("option")
-                .data(map.keys().sort())
-                .enter().append("option")
-                .attr("value", function(d) {
-                  return d;
-                })
-                .text(function(d) {
-                  return d;
-                });
-
-              // set the current dropdown option to the value of the last statechange
-              dispatch.on("statechange.menu", function(site) {
-                select.property("value", site.key);
-              });
+          // append options to select dropdown
+          select.selectAll("option")
+            .data(map.keys().sort())
+            .enter().append("option")
+            .attr("value", function(d) {
+              return d;
+            })
+            .text(function(d) {
+              return d;
             });
 
-
-
-
+          // set the current dropdown option to the value of the last statechange
+          dispatch.on("statechange.menu", function(site) {
+            select.property("value", site.key);
+          });
+        });
       </script>
     </div>
 
