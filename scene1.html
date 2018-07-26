@@ -77,7 +77,8 @@
           .attr("x", (width / 2))
           .attr("y", 0 - (margin.top / 2))
           .attr("text-anchor", "middle")
-          .style("font-size", "16px")
+          .attr("id", "chart-title");
+        .style("font-size", "16px")
           .style("text-decoration", "underline")
           .text("US Gun Violence 2013-2018");
         // add the x axis
@@ -159,12 +160,17 @@
           colorScale.domain(filteredData.map(function(d) {
             return d[colorColumn];
           }));
-         // Add a anotation
-          svg.append("text")
-            .attr("x", width - 100)
-            .attr("y", height/2)
-            .style("text-anchor", "middle")
-            .text("Data displayed is for the year "+ year);
+          // Add a anotation using the chart title
+          svg.select("#chart-title").remove();
+          svg.select("#chart-title")
+            .append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .attr("id", "chart-title");
+          .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("US Gun Violence Data for the Year " + year);
 
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
           var yAxis = d3.axisLeft().scale(y);
