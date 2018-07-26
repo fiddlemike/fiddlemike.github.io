@@ -158,7 +158,6 @@
           colorScale.domain(filteredData.map(function(d) {
             return d[colorColumn];
           }));
-
           // Add the x axis
           svg.append("g")
             .attr("class", "x axis")
@@ -166,15 +165,13 @@
             .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
               return parseInt(d);
             }).tickSizeInner([-height]));
-
           // add the y axis
           svg.append("g")
             .attr("class", "y axis")
             .call(d3.axisLeft(y));
-
           // Add the bars
           svg.selectAll(".bar")
-            .data(data)
+            .data(filteredData)
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x", 0)
