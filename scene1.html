@@ -106,6 +106,96 @@
             select.property("value", site.key);
           });
         });
+
+        // A bar chart to show total population; uses the "bar" namespace.
+        dispatch.on("load.bar", function(map) {
+          margin = {
+            top: 50,
+            right: 20,
+            bottom: 50,
+            left: 120
+          };
+          width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+          var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
+
+          colorScale.domain(map.map(function(d) {
+            return d[colorColumn];
+          }));
+
+          var x = d3.scaleLinear()
+            .domain([0, d3.max(map.values(), function(d) {
+              return d.freq;
+            })])
+            .range([0, width])
+            .nice();
+
+          var y = d3.scaleBand()
+            .domain([0, d3.max(map.values(), function(d) {
+              return d.state;
+            })])
+            .range([height, 0])
+            .nice();
+
+          var xAxis = d3.axisBottom(x).ticks(5).tickFormat(function(d) {
+              return parseInt(d);
+            }).tickSizeInner([-height]);
+
+          var yAxis = d3.axisLeft(y);
+
+          var svg = d3.select("viz").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          // Add chart title
+          g.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("US Gun Violence 2013-2018");
+
+          // add the x axis
+          svg.append("g")
+            .attr("class", "x axis")
+            .call(xAxis);
+
+          // text label for the x axis
+          svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + margin.bottom)
+            .style("text-anchor", "middle")
+            .text("Number of Incidents");
+
+          // Add the y axis
+          svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+          // text label for the y axis
+          svg.append("text")
+            .attr("x", 0 - (height / 2))
+            .attr("y", 0 - margin.left)
+            .attr("dy", "1em")
+            .attr("transform", function(d) {
+              return "rotate(-90)"
+            })
+            .style("fill", "black")
+            .style("text-anchor", "middle")
+            .text("US States");
+
+
+
+          dispatch.on("statechange.bar", function(d) {
+            rect.transition()
+              .attr("x", y(d.freq))
+              .attr("width", x(0) - x(d.freq));
+          });
+        });
       </script>
     </div>
 
