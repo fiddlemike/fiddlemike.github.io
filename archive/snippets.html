@@ -9,3 +9,13 @@
     <option value="2017">2017</option>
     <option value="2018">2018</option>
   </select>
+
+
+  // filter by year. Default to 2013
+  var data = csv_data.filter(function(d) {
+    return d.year == '2013';
+  });
+  /* Sort from lowest to highest  */
+  data.sort(function(a, b) {
+    return b.freq - a.freq;
+  });
