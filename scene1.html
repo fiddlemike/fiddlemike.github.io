@@ -210,7 +210,8 @@
                 return "" + colorScale(d[colorColumn]) + "";
               });
               tooltip.style("display", "none");
-            });
+            })
+            .transition(t);
 
         } // end function renderChart(year, data)
       </script>
