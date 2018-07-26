@@ -65,34 +65,34 @@
           if (error) throw error;
           // construct a new d3 map, not as in geographic map,
           // but more like a "hash"
-          var map = d3.map(csv_data, function(d) {
+          var data = d3.map(csv_data, function(d) {
             return d.year;
           });
 
           // call our dispatch events with `this` context, and corresponding data
-          dispatch.call("load", this, map);
-          dispatch.call("statechange", this, map.get(defaultYear));
+          dispatch.call("load", this, data);
+          dispatch.call("statechange", this, data.get(defaultYear));
         });
 
         // A drop-down menu for selecting a state; uses the "menu" namespace.
         // register a listener for "load" and create a dropdown / select element
-        dispatch.on("load.menu", function(map) {
+        dispatch.on("load.menu", function(data) {
           // create select dropdown, attach a native DOM event listener "change"
           // that will invoke dispatch.call with a "statechange" event
           var select = d3.select("#drop")
             .append("select")
             .on("change", function() {
-              var site = this.value;
+              var year = this.value;
               dispatch.call(
                 "statechange",
                 this,
-                map.get(site)
+                data.get(year)
               );
             });
 
           // append options to select dropdown
           select.selectAll("option")
-            .data(map.keys().sort())
+            .data(data.keys().sort())
             .enter().append("option")
             .attr("value", function(d) {
               return d;
@@ -102,8 +102,8 @@
             });
 
           // set the current dropdown option to the value of the last statechange
-          dispatch.on("statechange.menu", function(site) {
-            select.property("value", site.key);
+          dispatch.on("statechange.menu", function(year) {
+            select.property("value", year.key);
           });
         });
 
@@ -120,21 +120,25 @@
 
           var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
+          colorScale.domain(data.map(function(d) {
+            return d[colorColumn];
+          }));
+
           var x = d3.scaleLinear()
-            .domain([0, d3.max(map.values(), function(d) {
+            .domain([0, d3.max(data.values(), function(d) {
               return d.freq;
             })])
             .range([0, width]);
 
           var y = d3.scaleBand()
-            .domain([0, d3.max(map.values(), function(d) {
+            .domain([0, d3.max(data.values(), function(d) {
               return d.state;
             })])
             .range([height, 0]);
 
           var xAxis = d3.axisBottom(x).ticks(5).tickFormat(function(d) {
-              return parseInt(d);
-            }).tickSizeInner([-height]);
+            return parseInt(d);
+          }).tickSizeInner([-height]);
 
           var yAxis = d3.axisLeft(y);
 
@@ -182,6 +186,43 @@
             .style("text-anchor", "middle")
             .text("US States");
 
+          // add the bars
+          var rect = svg.append("rect")
+            .attr("x", 0)
+            .attr("height", y.bandwidth())
+            .attr("y", function(d) {
+              return y(d.state);
+            })
+            .attr("width", function(d) {
+              return x(d.freq);
+            })
+            .attr("fill", function(d) {
+              return colorScale(d[colorColumn]);
+            })
+            .on("mousemove", function(d) {
+              tooltip
+                .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
+            })
+            .on("mouseover", function() {
+              d3.select(this)
+                .attr("fill", "black");
+            })
+            .on("mouseout", function(d, i) {
+              d3.select(this).attr("fill", function() {
+                return "" + colorScale(d[colorColumn]) + "";
+              });
+              tooltip.style("display", "none");
+            });
+
+          set the transition
+          dispatch.on("statechange.bar", function(d) {
+            rect.transition()
+              .attr("x", x(d.d.freq))
+              .attr("width", x(d.freq));
+          });
 
         });
       </script>
