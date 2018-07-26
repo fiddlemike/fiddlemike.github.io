@@ -159,8 +159,7 @@
           }));
 
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
-          var yAxis = d3.axisLeft()
-            .scale(y);
+          var yAxis = d3.axisLeft().scale(y);
 
           var xAxis = d3.axisBottom()
             .tickFormat(function(d) {
@@ -184,6 +183,7 @@
             .data(filteredData)
             .enter().append("rect")
             .attr("class", "bar")
+            .transition(t)
             .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
