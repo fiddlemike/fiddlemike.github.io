@@ -217,10 +217,10 @@
               tooltip.style("display", "none");
             });
 
-          set the transition
+          // set the transition
           dispatch.on("statechange.bar", function(d) {
             rect.transition()
-              .attr("x", x(d.d.freq))
+              .attr("x", x(d.freq))
               .attr("width", x(d.freq));
           });
 
