@@ -54,11 +54,16 @@
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
 
+        var g = svg.append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
         // Set the data value to use for color
         var colorColumn = "state";
         // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
+        // Add a label for the drop down
+        d3.select("#drop").append("label").text("Incident Year: ");
 
         // D3 scales = just math
         // x is a function that transforms from "domain" (data) into "range" (usual pixels)
@@ -67,27 +72,7 @@
         var y = d3.scaleBand().range([height, 0]);
         var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
-
-        var g = svg.append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        // estimated population for U.S. states from 2013-2018
-        d3.csv("data/nst-est2017-alldata.csv", function(d) {
-          return {
-            state: d.state,
-            py_2013: +d.py_2013, // convert "population column"  to a number
-            py_2014: +d.py_2014, // convert "population column"  to a number
-            py_2015: +d.py_2015, // convert "population column"  to a number
-            py_2016: +d.py_2016, // convert "population column"  to a number
-            py_2017: +d.py_2017, // convert "population column"  to a number
-            py_2018: +d.py_2018 // convert "population column"  to a number
-          };
-        }, function(error, popest_data) {
-          if (error) throw error;
-          console.log(popest_data[0]);
-        });
-
-
+        // Fetch the data
         d3.csv("data/incidents_by_year_and_state.csv", function(d) {
           return {
             year: d.year,
@@ -116,6 +101,15 @@
           colorScale.domain(data.map(function(d) {
             return d[colorColumn];
           }));
+
+          // Add chart title
+          g.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("US Gun Violence 2013-2018");
 
           // Add the x axis
           g.append("g")
@@ -149,6 +143,7 @@
             .style("text-anchor", "middle")
             .text("US States");
 
+          // Add the bars
           g.selectAll(".bar")
             .data(data)
             .enter().append("rect")
@@ -182,18 +177,6 @@
               tooltip.style("display", "none");
             });
 
-          // Add a label for the drop down
-          d3.select("#drop").append("label").text("Incident Year: ");
-
-
-          // Add chart title
-          g.append("text")
-            .attr("x", (width / 2))
-            .attr("y", 0 - (margin.top / 2))
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("text-decoration", "underline")
-            .text("US Gun Violence 2013-2018");
 
 
           // add the drop down
@@ -248,8 +231,6 @@
               return d;
             })
         });
-
-
       </script>
     </div>
 
