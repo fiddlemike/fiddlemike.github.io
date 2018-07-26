@@ -142,6 +142,8 @@
           var filteredData = data.filter(function(d) {
             return d.year == year;
           });
+          console.log(year);
+          console.log(filteredData);
           /* Sort from lowest to highest  */
           filteredData.sort(function(a, b) {
             return b.freq - a.freq;
