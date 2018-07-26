@@ -169,6 +169,8 @@
           svg.append("g")
             .attr("class", "y axis")
             .call(d3.axisLeft(y));
+          // remove the previous bars
+          svg.selectAll(".bar").remove();
           // Add the bars
           svg.selectAll(".bar")
             .data(filteredData)
