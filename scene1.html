@@ -57,8 +57,8 @@
         // D3 scales = just math
         // x is a function that transforms from "domain" (data) into "range" (usual pixels)
         // domain gets set after the data loads
-        var x = d3.scaleLinear().range([0, width]);
-        var y = d3.scaleBand().range([height, 0]);
+        var xScale = d3.scaleLinear().range([0, width]);
+        var yScale = d3.scaleBand().range([height, 0]);
         var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
         // Set the data value to use for color
@@ -157,21 +157,27 @@
           colorScale.domain(filteredData.map(function(d) {
             return d[colorColumn];
           }));
-          var t = d3.transition().duration(500);
+
+          // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
+          var yAxis = d3.axisLeft()
+            .scale(yScale);
+
+          var xAxis = d3.axisBottom()
+            .tickFormat(function(d) {
+              parseInt(d);
+            })
+            .tickSizeInner([-height])
+            .scale(xScale);
 
           // Add the x axis
           svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .transition(t)
-            .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
-              return parseInt(d);
-            }).tickSizeInner([-height]));
+           .call(xAxis);
+
           // add the y axis
           svg.append("g")
             .attr("class", "y axis")
-            .transition(t)
-            .call(d3.axisLeft(y));
+          .call(yAxis);
 
 
           // remove the previous bars
@@ -180,7 +186,6 @@
           svg.selectAll(".bar")
             .data(filteredData)
             .enter().append("rect")
-            .transition(t)
             .attr("class", "bar")
             .attr("x", 0)
             .attr("height", y.bandwidth())
