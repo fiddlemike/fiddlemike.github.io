@@ -124,15 +124,13 @@
             .domain([0, d3.max(map.values(), function(d) {
               return d.freq;
             })])
-            .range([0, width])
-            .nice();
+            .range([0, width]);
 
           var y = d3.scaleBand()
             .domain([0, d3.max(map.values(), function(d) {
               return d.state;
             })])
-            .range([height, 0])
-            .nice();
+            .range([height, 0]);
 
           var xAxis = d3.axisBottom(x).ticks(5).tickFormat(function(d) {
               return parseInt(d);
