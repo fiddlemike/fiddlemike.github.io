@@ -71,7 +71,6 @@
         var svg = d3.select("svg")
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
         // Add chart title
         svg.append("text")
           .attr("x", (width / 2))
@@ -80,14 +79,16 @@
           .style("font-size", "16px")
           .style("text-decoration", "underline")
           .text("US Gun Violence 2013-2018");
-
+        // add the x axis
+        svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")");
         // text label for the x axis
         svg.append("text")
           .attr("x", width / 2)
           .attr("y", height + margin.bottom)
           .style("text-anchor", "middle")
           .text("Number of Incidents");
-
+        // add the y axis
+        svg.append("g").attr("class", "y axis");
         // text label for the y axis
         svg.append("text")
           .attr("x", 0 - (height / 2))
@@ -162,18 +163,16 @@
           var yAxis = d3.axisLeft().scale(y);
 
           var xAxis = d3.axisBottom()
+            .ticks(5)
             .tickFormat(function(d) {
               parseInt(d);
             })
-            .tickSizeInner([-height])
             .scale(x);
 
           var t = d3.transition().duration(500);
-          // Add the x axis
-          svg.append("g").attr("class", "x axis");
+          // Set the x axis
           svg.select(".x").transition(t).call(xAxis);
-          // add the y axis
-          svg.append("g").attr("class", "y axis");
+          // Set the y axis
           svg.select(".y").transition(t).call(yAxis);
 
           // remove the previous bars
@@ -183,7 +182,6 @@
             .data(filteredData)
             .enter().append("rect")
             .attr("class", "bar")
-            .transition(t)
             .attr("x", 0)
             .attr("height", y.bandwidth())
             .attr("y", function(d) {
