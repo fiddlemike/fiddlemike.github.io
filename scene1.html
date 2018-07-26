@@ -162,12 +162,7 @@
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
           var yAxis = d3.axisLeft().scale(y);
 
-          var xAxis = d3.axisBottom()
-            .ticks(5)
-            .tickFormat(function(d) {
-              parseInt(d);
-            })
-            .scale(x);
+          var xAxis = d3.axisBottom().scale(x);
 
           var t = d3.transition().duration(500);
           // Set the x axis
