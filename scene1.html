@@ -109,101 +109,102 @@
           };
         }, function(error, csv_data) {
           if (error) throw error;
-        });
-        console.log(csv_data);
 
-        // add the drop down
-        var selector = d3.select("#drop")
-          .append("select")
-          .attr("id", "dropdown")
-          .on("change", function(d) {
-            selection = document.getElementById("dropdown");
-            renderChart(selection, csv_data);
-          });
+          console.log(csv_data);
 
-        // Map the values for the drop down
-        selector.selectAll("option")
-          .data(d3.map(csv_data, function(d) {
-            return d.year;
-          }).keys())
-          .enter().append("option")
-          .attr("value", function(d) {
-            return d;
-          })
-          .text(function(d) {
-            return d;
-          });
-
-        function renderChart(year, data) {
-          // filter the data based on the year dropdown
-          var filteredData = data.filter(function(d) {
-            return d.year == year;
-          });
-          /* Sort from lowest to highest  */
-          filteredData.sort(function(a, b) {
-            return b.freq - a.freq;
-          });
-          // calculate the domains
-          x.domain([0, d3.max(filteredData, function(d) {
-            return d.freq;
-          })]);
-          y.domain(filteredData.map(function(d) {
-            return d.state;
-          })).padding(0.2);
-          colorScale.domain(filteredData.map(function(d) {
-            return d[colorColumn];
-          }));
-
-          // Add the x axis
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
-              return parseInt(d);
-            }).tickSizeInner([-height]));
-
-          // add the y axis
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(d3.axisLeft(y));
-
-          // Add the bars
-          svg.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", 0)
-            .attr("height", y.bandwidth())
-            .attr("y", function(d) {
-              return y(d.state);
-            })
-            .attr("width", function(d) {
-              return x(d.freq);
-            })
-            .attr("fill", function(d) {
-              return colorScale(d[colorColumn]);
-            })
-            .on("mousemove", function(d) {
-              tooltip
-                .style("left", d3.event.pageX - 50 + "px")
-                .style("top", d3.event.pageY - 70 + "px")
-                .style("display", "inline-block")
-                .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
-            })
-            .on("mouseover", function() {
-              d3.select(this)
-                .attr("fill", "black");
-            })
-            .on("mouseout", function(d, i) {
-              d3.select(this).attr("fill", function() {
-                return "" + colorScale(d[colorColumn]) + "";
-              });
-              tooltip.style("display", "none");
+          // add the drop down
+          var selector = d3.select("#drop")
+            .append("select")
+            .attr("id", "dropdown")
+            .on("change", function(d) {
+              selection = document.getElementById("dropdown");
+              renderChart(selection, csv_data);
             });
 
-        } // end function renderChart(year, data)
-        // render by default using year = 2013
-        renderChart("2013", csv_data);
+          // Map the values for the drop down
+          selector.selectAll("option")
+            .data(d3.map(csv_data, function(d) {
+              return d.year;
+            }).keys())
+            .enter().append("option")
+            .attr("value", function(d) {
+              return d;
+            })
+            .text(function(d) {
+              return d;
+            });
+
+          function renderChart(year, data) {
+            // filter the data based on the year dropdown
+            var filteredData = data.filter(function(d) {
+              return d.year == year;
+            });
+            /* Sort from lowest to highest  */
+            filteredData.sort(function(a, b) {
+              return b.freq - a.freq;
+            });
+            // calculate the domains
+            x.domain([0, d3.max(filteredData, function(d) {
+              return d.freq;
+            })]);
+            y.domain(filteredData.map(function(d) {
+              return d.state;
+            })).padding(0.2);
+            colorScale.domain(filteredData.map(function(d) {
+              return d[colorColumn];
+            }));
+
+            // Add the x axis
+            svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
+                return parseInt(d);
+              }).tickSizeInner([-height]));
+
+            // add the y axis
+            svg.append("g")
+              .attr("class", "y axis")
+              .call(d3.axisLeft(y));
+
+            // Add the bars
+            svg.selectAll(".bar")
+              .data(data)
+              .enter().append("rect")
+              .attr("class", "bar")
+              .attr("x", 0)
+              .attr("height", y.bandwidth())
+              .attr("y", function(d) {
+                return y(d.state);
+              })
+              .attr("width", function(d) {
+                return x(d.freq);
+              })
+              .attr("fill", function(d) {
+                return colorScale(d[colorColumn]);
+              })
+              .on("mousemove", function(d) {
+                tooltip
+                  .style("left", d3.event.pageX - 50 + "px")
+                  .style("top", d3.event.pageY - 70 + "px")
+                  .style("display", "inline-block")
+                  .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
+              })
+              .on("mouseover", function() {
+                d3.select(this)
+                  .attr("fill", "black");
+              })
+              .on("mouseout", function(d, i) {
+                d3.select(this).attr("fill", function() {
+                  return "" + colorScale(d[colorColumn]) + "";
+                });
+                tooltip.style("display", "none");
+              });
+
+          } // end function renderChart(year, data)
+          // render by default using year = 2013
+          renderChart("2013", csv_data);
+        });
       </script>
     </div>
 
