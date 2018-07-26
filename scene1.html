@@ -39,7 +39,7 @@
     </nav>
   </header>
   <div id="drop" class="toolbar" align="center">
-    <a href="/scene2" float="right">Next Scene &rarr;</a>
+    <a href="/scene2">Next Scene &rarr;</a>
   </div>
   <main>
     <div id="viz" class="barchart">
@@ -65,8 +65,6 @@
         var colorColumn = "state";
         // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
-        // Define the div for the annotation
-        var annotation = d3.select("body").append("div").attr("class", "annotation");
         // Add a label for the year drop down menu
         d3.select("#drop").append("label").text("Incident Year: ");
         //set up chart
