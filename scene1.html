@@ -69,6 +69,7 @@
             return d.year;
           });
 
+          console.log(data);
           // call our dispatch events with `this` context, and corresponding data
           dispatch.call("load", this, data);
           dispatch.call("statechange", this, data.get(defaultYear));
@@ -115,8 +116,9 @@
             bottom: 50,
             left: 120
           };
+          // set width and height for the svg
           width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+          height = 500 - margin.top - margin.bottom;
 
           var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
