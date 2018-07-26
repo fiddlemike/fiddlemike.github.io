@@ -100,7 +100,7 @@
           .text("US States");
 
         // Fetch and format the data
-        d3.csv("data/incidents_by_year_and_state.csv", function(d) {
+        var csv_data = d3.csv("data/incidents_by_year_and_state.csv", function(d) {
           return {
             year: d.year,
             state: d.state,
