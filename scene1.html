@@ -60,6 +60,7 @@
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleBand().range([height, 0]);
         var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
+
         // Set the data value to use for color
         var colorColumn = "state";
         // Add the tooltip
@@ -142,8 +143,6 @@
           var filteredData = data.filter(function(d) {
             return d.year == year;
           });
-          console.log(year);
-          console.log(filteredData);
           /* Sort from lowest to highest  */
           filteredData.sort(function(a, b) {
             return b.freq - a.freq;
@@ -158,23 +157,30 @@
           colorScale.domain(filteredData.map(function(d) {
             return d[colorColumn];
           }));
+          var t = d3.transition().duration(500);
+
           // Add the x axis
           svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
+            .transition(t)
             .call(d3.axisBottom(x).ticks(5).tickFormat(function(d) {
               return parseInt(d);
             }).tickSizeInner([-height]));
           // add the y axis
           svg.append("g")
             .attr("class", "y axis")
+            .transition(t)
             .call(d3.axisLeft(y));
+
+
           // remove the previous bars
           svg.selectAll(".bar").remove();
           // Add the bars
           svg.selectAll(".bar")
             .data(filteredData)
             .enter().append("rect")
+            .transition(t)
             .attr("class", "bar")
             .attr("x", 0)
             .attr("height", y.bandwidth())
