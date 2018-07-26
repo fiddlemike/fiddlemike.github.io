@@ -20,15 +20,3 @@
   .toolbar {
     display: inline-block;
   }
-
-  .flex-parent {
-    display: flex;
-  }
-
-  .flex-child {
-    flex: 1;
-  }
-
-  .inline-flex-parent {
-    display: inline-flex;
-  }

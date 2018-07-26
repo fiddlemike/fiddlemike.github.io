@@ -60,11 +60,12 @@
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleBand().range([height, 0]);
         var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
-
         // Set the data value to use for color
         var colorColumn = "state";
         // Add the tooltip
         var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+        // Define the div for the annotation
+        var annotation = d3.select("body").append("div").attr("class", "annotation");
         // Add a label for the year drop down menu
         d3.select("#drop").append("label").text("Incident Year: ");
         //set up chart
@@ -158,6 +159,12 @@
           colorScale.domain(filteredData.map(function(d) {
             return d[colorColumn];
           }));
+         // Add a anotation
+          svg.append("text")
+            .attr("x", width)
+            .attr("y", height)
+            .style("text-anchor", "middle")
+            .html("Data displayed id for the year "+ year);
 
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
           var yAxis = d3.axisLeft().scale(y);
