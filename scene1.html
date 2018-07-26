@@ -30,7 +30,7 @@
 
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
-            <li><a href="/scene1">Scene 1</a></li>
+            <li><a href="/scene1">Visualization</a></li>
             <li><a href="/essay">Essay</a></li>
           </ul>
         </div>
@@ -39,6 +39,7 @@
     </nav>
   </header>
   <div id="drop" class="toolbar" align="center">
+    <a href="/scene2">&rarr;</a>
   </div>
   <main>
     <div id="viz" class="barchart">
@@ -210,8 +211,7 @@
                 return "" + colorScale(d[colorColumn]) + "";
               });
               tooltip.style("display", "none");
-            })
-            .transition(t);
+            });
 
         } // end function renderChart(year, data)
       </script>
