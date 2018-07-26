@@ -57,8 +57,8 @@
         // D3 scales = just math
         // x is a function that transforms from "domain" (data) into "range" (usual pixels)
         // domain gets set after the data loads
-        var xScale = d3.scaleLinear().range([0, width]);
-        var yScale = d3.scaleBand().range([height, 0]);
+        var x = d3.scaleLinear().range([0, width]);
+        var y = d3.scaleBand().range([height, 0]);
         var colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
         // Set the data value to use for color
@@ -148,10 +148,10 @@
             return b.freq - a.freq;
           });
           // calculate the domains
-          xScale.domain([0, d3.max(filteredData, function(d) {
+          x.domain([0, d3.max(filteredData, function(d) {
             return d.freq;
           })]);
-          yScale.domain(filteredData.map(function(d) {
+          y.domain(filteredData.map(function(d) {
             return d.state;
           })).padding(0.2);
           colorScale.domain(filteredData.map(function(d) {
@@ -160,14 +160,14 @@
 
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
           var yAxis = d3.axisLeft()
-            .scale(yScale);
+            .scale(y);
 
           var xAxis = d3.axisBottom()
             .tickFormat(function(d) {
               parseInt(d);
             })
             .tickSizeInner([-height])
-            .scale(xScale);
+            .scale(x);
 
           // Add the x axis
           svg.append("g")
