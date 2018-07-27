@@ -84,8 +84,8 @@
           return {
             month: d.month,
             year: d.year,
-            lat: +d.latitude,
-            lon: +d.longitude,
+            lat: d.latitude,
+            lon: d.longitude,
             type: d.incident_characteristics
           };
         }, function(error, data) {
@@ -94,6 +94,8 @@
             return d.year == "2013";
           });
 
+          console.log(filteredData);
+          
           svg.selectAll("circle")
             .data(filteredData)
             .enter()
