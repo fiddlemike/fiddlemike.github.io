@@ -4,6 +4,11 @@
 
 .states {
   fill: steelblue;
+  cursor: pointer;
+}
+
+.states.active {
+  fill: orange;
 }
 
 .state-borders {
