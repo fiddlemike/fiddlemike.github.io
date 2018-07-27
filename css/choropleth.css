@@ -1,6 +1,9 @@
 .states :hover {
   fill: red;
 }
+.states {
+   background-color:: #33FF3F;
+}
 
 .state-borders {
   fill: none;
