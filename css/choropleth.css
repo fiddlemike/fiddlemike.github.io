@@ -1,6 +1,5 @@
 .states :hover {
-  fill: white;
-  border: 5px solid red;
+  background: white;
 }
 
 .states {
