@@ -64,48 +64,49 @@
 
       // Create the map svg
       d3.json("json/us.json", function(error, us) {
-            if (error) throw error;
-            // add states from topojson
-            svg.append("g")
-              .attr("class", "states")
-              .selectAll("path")
-              .data(topojson.feature(us, us.objects.states).features)
-              .enter().append("path")
-              .attr("d", path);
-            // put boarder around states
-            svg.append("path")
-              .attr("class", "state-borders")
-              .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
-                return a !== b;
-              })));
+        if (error) throw error;
+        // add states from topojson
+        svg.append("g")
+          .attr("class", "states")
+          .selectAll("path")
+          .data(topojson.feature(us, us.objects.states).features)
+          .enter().append("path")
+          .attr("d", path);
+        // put boarder around states
+        svg.append("path")
+          .attr("class", "state-borders")
+          .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
+            return a !== b;
+          })));
 
-            // load and display the incident locations
-            d3.csv("data/incidents_by_location_and_type.csv", function(d) {
-              return {
-                month: d.month,
-                year: d.year,
-                lat: +d.latitude,
-                lon: +d.longitude,
-                type: d.incident_characteristics
-              };
-            }, function(error, data) {
+        // load and display the incident locations
+        d3.csv("data/incidents_by_location_and_type.csv", function(d) {
+          return {
+            month: d.month,
+            year: d.year,
+            lat: +d.latitude,
+            lon: +d.longitude,
+            type: d.incident_characteristics
+          };
+        }, function(error, data) {
 
-              var filteredData = data.filter(function(d) {
-                return d.year == "2013";
-              });
+          var filteredData = data.filter(function(d) {
+            return d.year == "2013";
+          });
 
-              console.log(filteredData);
-              
-              svg.selectAll("circle")
-                .data(filteredData)
-                .enter().append("circle")
-                .attr("r", 2)
-                .style("fill", "red")
-                .attr("transform", function(d) {
-                  return "translate(" + projection([d.lon,d.lat) + ")"});
+          console.log(filteredData);
 
-                }); // end  d3.csv("data/incidents_by_location_and_type.csv"
-            }); // end d3.json("json/us.json", function(error, us)
+          svg.selectAll("circle")
+            .data(filteredData)
+            .enter().append("circle")
+            .attr("r", 2)
+            .style("fill", "red")
+            .attr("transform", function(d) {
+              return "translate(" + projection([d.lon, d.lat]) + ")"
+            });
+
+        }); // end  d3.csv("data/incidents_by_location_and_type.csv"
+      }); // end d3.json("json/us.json", function(error, us)
     </script>
   </main>
   <div id="scene-intro" class="explain">
