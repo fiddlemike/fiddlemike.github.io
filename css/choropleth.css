@@ -1,7 +1,9 @@
 .states :hover {
-  fill: red;
-  opacity: 0.25;
+  border-style: solid;
+  border-color: red;
+  border-width: 5px;
 }
+
 .states {
   fill: steelblue;
 }
