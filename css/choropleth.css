@@ -7,7 +7,7 @@
   cursor: pointer;
 }
 
-.states .active {
+.states.active {
   fill: steelblue;
   opacity: 0.5;
 }
