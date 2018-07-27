@@ -55,13 +55,12 @@
       };
       var width = 960;
       var height = 500;
-      var centered;
 
       // Add a label for the year drop down menu
       d3.select("#drop").append("label").text("Incident Year: ");
       // Set the projection
       var projection = d3.geoAlbersUsa()
-        .scale(1070)
+        .scale(1000)
         .translate([width / 2, height / 2]);
 
       // create path variable
@@ -71,15 +70,8 @@
       var svg = d3.select("#viz").append("svg")
         .attr("class", "incident-map")
         .attr("width", width)
-        .attr("height", height)
-        .on("click", clicked);
+        .attr("height", height);
 
-      // Add the background rectangle to the svg
-      svg.append("rect")
-        .attr("class", "background")
-        .attr("width", width)
-        .attr("height", height)
-        .on("click", clicked);
 
       var g = svg.append("g");
       // Create the map svg
@@ -88,16 +80,15 @@
 
         // add states from topojson
         g.append("g")
-          .attr("id", "states")
+          .attr("class", "states")
           .selectAll("path")
           .data(topojson.feature(us, us.objects.states).features)
           .enter().append("path")
-          .attr("d", path)
-          .on("click", clicked);
+          .attr("d", path);
 
         // put boarder around states
         g.append("path")
-          .attr("id", "state-borders")
+          .attr("class", "state-borders")
           .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
             return a !== b;
           })));
@@ -131,33 +122,6 @@
         }); // end  d3.csv("data/incidents_by_location_and_type.csv"
       }); // end d3.json("json/us.json", function(error, us)
 
-
-      function clicked(d) {
-        var x, y, k;
-
-        if (d && centered !== d) {
-          var centroid = path.centroid(d);
-          x = centroid[0];
-          y = centroid[1];
-          k = 4;
-          centered = d;
-        } else {
-          x = width / 2;
-          y = height / 2;
-          k = 1;
-          centered = null;
-        }
-
-        g.selectAll("path")
-          .classed("active", centered && function(d) {
-            return d === centered;
-          });
-
-        g.transition()
-          .duration(750)
-          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-          .style("stroke-width", 1.5 / k + "px");
-      }
     </script>
   </main>
   <div id="scene-intro" class="explain">
