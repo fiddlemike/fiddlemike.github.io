@@ -1,7 +1,5 @@
 .states :hover {
-  fill: white;
   opacity: 0.25;
-  fill-opacity: .25;
 }
 
 .states {
