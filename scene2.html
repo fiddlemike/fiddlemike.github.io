@@ -63,7 +63,7 @@
       bb = [-122.389809, 37.72728];
 
       // Create the map svg
-      d3.json("json/us-10m.v1.json", function(error, us) {
+      d3.json("json/us.json", function(error, us) {
         if (error) throw error;
         // add states from topojson
         svg.append("g")
