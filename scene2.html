@@ -85,6 +85,7 @@
       // Create the map svg
       d3.json("json/us.json", function(error, us) {
         if (error) throw error;
+
         // add states from topojson
         g.append("g")
           .attr("id", "states")
@@ -93,9 +94,10 @@
           .enter().append("path")
           .attr("d", path)
           .on("click", clicked);
+
         // put boarder around states
         g.append("path")
-          .attr("is", "state-borders")
+          .attr("id", "state-borders")
           .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
             return a !== b;
           })));
