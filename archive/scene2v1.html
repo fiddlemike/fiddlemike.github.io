@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Michael Machado - Visualizations</title>
+  <script src="js/d3.v4.min.js"></script>
+  <script src="js/d3-scale-chromatic.v0.3.min.js"></script>
+  <script src="js/topojson.v3.0.2.min.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/choropleth.css">
+
+</head>
+
+<body class="container">
+  <header id="header">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <a class="navbar-brand" href="https://d3js.org/" target="_blank">
+                <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+                D3 is fun
+            </a>
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/scene1">Visualization</a></li>
+            <li><a href="/essay">Essay</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div id="drop" class="toolbar" align="center">
+    <a href="/scene1">&larr; Previous Scene</a>
+  </div>
+  <main>
+    <div id="viz" class="us-map">
+
+    </div>
+    <script>
+      // Width and height of map
+      // Set the dimensions of the svg
+      margin = {
+        top: 50,
+        right: 0,
+        bottom: 0,
+        left: 0
+      };
+      var width = 960;
+      var height = 600;
+
+      // Add a label for the year drop down menu
+      d3.select("#drop").append("label").text("Incident Year: ");
+
+      // Set the projection
+      var projection = d3.geoAlbersUsa();
+
+      // create path variable
+      var path = d3.geoPath().projection(projection);
+
+      // Set up the svg
+      var svg = d3.select("#viz").append("svg")
+        .attr("class", "incident-map")
+        .attr("width", width)
+        .attr("height", height);
+
+      // Create the map svg
+      d3.json("json/us.json", function(error, us) {
+        if (error) throw error;
+
+        // add states from topojson
+        svg.append("g")
+          .attr("class", "states")
+          .selectAll("path")
+          .data(topojson.feature(us, us.objects.states).features)
+          .enter().append("path")
+          .attr("d", path);
+
+        // put boarder around states
+        svg.append("path")
+          .attr("class", "state-borders")
+          .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
+            return a !== b;
+          })));
+
+        // load and display the incident locations
+        d3.csv("data/incidents_by_location_and_type.csv", function(d) {
+          return {
+            month: d.month,
+            year: d.year,
+            lat: +d.latitude,
+            lon: +d.longitude,
+            type: d.incident_characteristics
+          };
+        }, function(error, data) {
+
+          var filteredData = data.filter(function(d) {
+            return d.year == "2013";
+          });
+
+          console.log(filteredData);
+
+          svg.selectAll("circle")
+            .data(filteredData)
+            .enter().append("circle")
+            .attr("r", 2)
+            .style("fill", "red")
+            .attr("transform", function(d) {
+              return "translate(" + projection([d.lon, d.lat]) + ")"
+            });
+
+        }); // end  d3.csv("data/incidents_by_location_and_type.csv"
+      }); // end d3.json("json/us.json", function(error, us)
+
+    </script>
+  </main>
+  <div id="scene-intro" class="explain">
+    <p>This is where there will be an explanation ot the scene.</p>
+  </div>
+  <footer id="footer">
+    <hr>
+    <p class="text-center text-muted">© Copyright 2018 Michael Machado</p>
+  </footer>
+
+
+</body>
+
+</html>
