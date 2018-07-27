@@ -82,16 +82,29 @@
       d3.json("json/us.json", function(error, us) {
         if (error) throw error;
         // load and display the incident locations
-        d3.csv("data/incidents_by_location_and_type.csv", function(error, data) {
+        d3.csv("data/incidents_by_location_and_type.csv", function(d) {
+          return {
+            month: d.month,
+            year: d.year,
+            lat: +d.latitude,
+            lon: +d.longitude,
+            type: d.incident_characteristics
+          };
+        }, function(error, data) {
+
+          var filteredData = data.filter(function(d) {
+            return d.year == "2013";
+          });
+
           g.selectAll("circle")
-            .data(data)
+            .data(filteredData)
             .enter()
             .append("circle")
             .attr("cx", function(d) {
-              return projection([d.longitude, d.latitude]);
+              return projection(d.lat);
             })
             .attr("cy", function(d) {
-              return projection([d.longitude, d.latitude]);
+              return projection(d.lon);
             })
             .attr("r", 2)
             .style("fill", "red");
