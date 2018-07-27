@@ -93,17 +93,17 @@
               var filteredData = data.filter(function(d) {
                 return d.year == "2013";
               });
+
               console.log(filteredData);
+              
               svg.selectAll("circle")
                 .data(filteredData)
                 .enter().append("circle")
                 .attr("r", 2)
                 .style("fill", "red")
                 .attr("transform", function(d) {
-                  return "translate(" + projection([
-                    d.lon,
-                    d.lat
-                  ]) + ")";
+                  return "translate(" + projection([d.lon,d.lat) + ")"});
+
                 }); // end  d3.csv("data/incidents_by_location_and_type.csv"
             }); // end d3.json("json/us.json", function(error, us)
     </script>
