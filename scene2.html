@@ -46,13 +46,6 @@
     </div>
     <script>
       // Width and height of map
-      // Set the dimensions of the svg
-      margin = {
-        top: 50,
-        right: 0,
-        bottom: 0,
-        left: 0
-      };
       var width = 960;
       var height = 500;
       var active = d3.select(null);
@@ -69,15 +62,6 @@
         .attr("class", "incident-map")
         .attr("width", width)
         .attr("height", height);
-      // Add chart title
-      svg.append("text")
-        .attr("x", (width / 2))
-        .attr("y", 0 - (margin.top / 2))
-        .attr("text-anchor", "middle")
-        .attr("id", "chart-title")
-        .style("font-size", "16px")
-        .style("text-decoration", "underline")
-        .text("US Gun Violence 2013-2018");
 
       // Create the map svg
       d3.json("json/us.json", function(error, us) {
