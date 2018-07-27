@@ -73,10 +73,10 @@
           .attr("y", 0 - (margin.top / 2))
           .attr("text-anchor", "middle")
           .attr("id", "chart-title")
-          .attr('class', 'annotation')
           .style("font-size", "16px")
           .style("text-decoration", "underline")
           .text("US Gun Violence 2013-2018");
+
         // add the x axis
         svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")");
         // text label for the x axis
@@ -100,7 +100,6 @@
           .text("US States");
 
         // Fetch and format the data
-
         d3.csv("data/incidents_by_year_and_state.csv", function(d) {
           return {
             year: d.year,
