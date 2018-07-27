@@ -61,6 +61,10 @@
       d3.select("#drop").append("label").text("Incident Year: ");
       // Set the projection
       var projection = d3.geoAlbersUsa();
+      var zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", zoomed);
+
       // create path variable
       var path = d3.geoPath().projection(projection);
       // Set up the svg
