@@ -64,10 +64,6 @@
         .scale(1070)
         .translate([width / 2, height / 2]);
 
-      var zoom = d3.zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", zoomed);
-
       // create path variable
       var path = d3.geoPath().projection(projection);
 
