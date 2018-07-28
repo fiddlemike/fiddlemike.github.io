@@ -29,3 +29,15 @@
 
   function ready(error, topo) {
       if (error) throw error;
+
+
+      // load and display the incident locations
+      d3.csv("data/incidents_by_location_and_type.csv", function(d) {
+        return {
+          incident_id: d.incident_id,
+          year: d.year,
+          lat: +d.latitude,
+          lon: +d.longitude,
+          type: d.incident_characteristics
+        };
+      }, function(error, data) {

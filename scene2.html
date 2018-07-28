@@ -82,9 +82,19 @@
         .style("text-decoration", "underline")
         .text("US Gun Violence 2013-2018");
 
-      // Create the map svg
-      d3.json("json/us.json", function(error, us) {
-        if (error) throw error;
+
+      d3.queue()
+        .defer(d3.json, "json/us.json")
+        .defer(d3.tsv, "tsv/us-state-names.tsv")
+        .defer(d3.csv, "data/incidents_by_location_and_type.csv", function(d) {
+          data.set(d.incident_id, d.year, +d.latitude, +d.longitude, d.incident_characteristics);
+        })
+        .await(makeIncidentMap);
+
+      function makeIncidentMap(error, us, state_names, incident_data) {
+        if (error) {
+          console.log(error);
+        }
 
         // add states from topojson
         svg.append("g")
@@ -101,62 +111,33 @@
             return a !== b;
           })));
 
-        svg.append("text")
-          .attr("class", "country-label")
-          .attr("transform", function(d) {
-            console.log("d", d);
-            return "translate(" + path.centroid(d) + ")";
-          })
-          .text(function(d) {
-            return d.properties.name;
-          })
-          .attr("dx", function(d) {
-            return "0.3em";
 
-          })
-          .attr("dy", function(d) {
-            return "0.35em";
+        // add the drop down
+        var selector = d3.select("#drop")
+          .append("select")
+          .attr("id", "dropdown")
+          .on("change", function(d) {
+            selection = document.getElementById("dropdown").value;
+            // remove the previous circles
+            svg.selectAll("circle").remove();
+            renderChart(selection, incident_data);
           });
 
-        // load and display the incident locations
-        d3.csv("data/incidents_by_location_and_type.csv", function(d) {
-          return {
-            incident_id: d.incident_id,
-            year: d.year,
-            lat: +d.latitude,
-            lon: +d.longitude,
-            type: d.incident_characteristics
-          };
-        }, function(error, data) {
+        // Map the values for the drop down
+        selector.selectAll("option")
+          .data(d3.map(incident_data, function(d) {
+            return d.year;
+          }).keys())
+          .enter().append("option")
+          .attr("value", function(d) {
+            return d;
+          })
+          .text(function(d) {
+            return d;
+          });
 
-
-          // add the drop down
-          var selector = d3.select("#drop")
-            .append("select")
-            .attr("id", "dropdown")
-            .on("change", function(d) {
-              selection = document.getElementById("dropdown").value;
-              // remove the previous circles
-              svg.selectAll("circle").remove();
-              renderChart(selection, data);
-            });
-
-          // Map the values for the drop down
-          selector.selectAll("option")
-            .data(d3.map(data, function(d) {
-              return d.year;
-            }).keys())
-            .enter().append("option")
-            .attr("value", function(d) {
-              return d;
-            })
-            .text(function(d) {
-              return d;
-            });
-
-          // render by default using year = 2013
-          // renderChart("2013", data);
-        }); // end  d3.csv("data/incidents_by_location_and_type.csv"
+        // render by default using year = 2013
+        // renderChart("2013", data);
 
         function renderChart(year, data) {
 
@@ -181,7 +162,7 @@
             });
         } // end function renderChart(year, data)
 
-      }); // end d3.json("json/us.json", function(error, us)
+      } // end makeIncidentMap
     </script>
   </main>
   <div id="scene-intro" class="explain">
