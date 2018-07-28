@@ -196,25 +196,17 @@
             .text("US Gun Violence Data for the Year " + year);
 
           /* Add the incident markers */
-          var markers = g.selectAll(".markers")
-            .data(filteredData);
+          var markers = g.selectAll(".markers").data(filteredData);
           // Add new incident markers
           markers.enter()
             .append("circle")
             .attr("class", "markers")
-            .attr("r", 0)
-            .transition()
-            .duration(500)
-            .attr("r", 2.5)
+            .attr("r", 2)
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
             });
           // remove old incident markers
-          markers.exit()
-            .transition()
-            .duration(500)
-            .attr("r", 0)
-            .remove();
+          markers.exit().remove();
         } // end function renderChart(year, data)
 
       } // end makeIncidentMap
