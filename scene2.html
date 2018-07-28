@@ -106,20 +106,13 @@
 
       d3.queue()
         .defer(d3.json, "json/us.json")
-        .defer(d3.tsv, "tsv/us-state-names.tsv")
         .defer(d3.csv, "data/incidents_by_location_and_type.csv")
         .await(makeIncidentMap);
 
-      function makeIncidentMap(error, us, state_names, incident_data) {
+      function makeIncidentMap(error, us, incident_data) {
         if (error) {
           console.log(error);
         }
-
-        // extract just the state names and Ids from the us-state-names.tsv file
-        var names = {};
-        state_names.forEach(function(d, i) {
-          names[d.id] = d.name;
-        });
 
         // coerce latitude and longitude to a number
         incident_data.forEach(function(d) {
@@ -135,13 +128,13 @@
           .enter().append("path")
           .attr("d", geoPath)
           .on("click", clicked);
+
         // put boarder around states
         g.append("path")
           .attr("class", "state-borders")
           .attr("d", geoPath(topojson.mesh(us, us.objects.states, function(a, b) {
             return a !== b;
           })));
-
 
         // add the drop down
         var selector = d3.select("#drop")
@@ -200,7 +193,9 @@
                 .style("left", 480 + "px")
                 .style("top", 100 + "px")
                 .style("display", "inline-block")
-                .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
+                .html("Date: " +  (d.date) + " State: " + (d.state) + " City/County: " + (d.city_or_county) + "<br>" +
+                " Killed: " + (d.n_killed) +   " Injured " + (d.n_injured) + "<br>" +
+                "Incident Type: " + (d.incident_characteristics));
             })
             .on("mouseout", function(d, i) {
               d3.select(this)
