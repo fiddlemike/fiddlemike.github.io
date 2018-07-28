@@ -157,8 +157,14 @@
             return d[colorColumn];
           }));
 
-          svg.select("text.annotation")
-            .text("US Gun Violence Data for the Year " + year);
+          if (year == '2013' || year == "2018") {
+            svg.select("text.annotation")
+              .text("US Gun Violence Data for the Year " + year + ". Only partial data for this year.");
+          } else {
+            svg.select("text.annotation")
+              .text("US Gun Violence Data for the Year " + year);
+          }
+
 
           // d3.v4 method of setting up axises: axisLeft, axisBottom, etc.
           var yAxis = d3.axisLeft().scale(y);
@@ -211,9 +217,9 @@
       </script>
     </div>
   </main>
-<div id="scene-intro" class="explain">
-  <p>This is where there will be an explanation ot the scene.</p>
-</div>
+  <div id="scene-intro" class="explain">
+    <p>This is where there will be an explanation ot the scene.</p>
+  </div>
   <footer id="footer">
     <hr>
     <p class="text-center text-muted">© Copyright 2018 Michael Machado</p>
