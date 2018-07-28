@@ -193,9 +193,9 @@
             })
             .on("mouseover", function() {
               d3.select(this)
-                .attr("fill", "green")
                 .transition()
-                .attr('r', 10);
+                .attr('r', 10)
+                .attr("fill", "green");
               // set the tooltip
               tooltip
                 .style("left", d3.event.pageX - 50 + "px")
