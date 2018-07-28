@@ -55,12 +55,20 @@
       };
       var width = 960;
       var height = 600;
+      var active = d3.select(null);
 
       // Add a label for the year drop down menu
       d3.select("#drop").append("label").text("Incident Year: ");
 
       // Set the projection
-      var projection = d3.geoAlbersUsa();
+      var projection = d3.geoAlbersUsa()
+        .scale(1000)
+        .translate([width / 2, height / 2]);
+
+      // Set zoom
+      var zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", zoomed);
 
       // create path variable
       var path = d3.geoPath().projection(projection);
@@ -69,10 +77,21 @@
       var svg = d3.select("#viz").append("svg")
         .attr("class", "incident-map")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .on("click", stopped, true);
+
+      svg.append("rect")
+        .attr("class", "background")
+        .attr("width", width)
+        .attr("height", height)
+        .on("click", reset);
+
+      var g = svg.append("g");
+
+      svg.call(zoom); // delete this line to disable free zooming
 
       // Add chart title
-      svg.append("text")
+      g.append("text")
         .attr("x", (width / 2))
         .attr("y", 20)
         .attr("text-anchor", "middle")
@@ -101,22 +120,22 @@
         });
 
         // add states from topojson
-        svg.append("g")
+        g.append("g")
           .attr("class", "states")
           .selectAll("path")
           .data(topojson.feature(us, us.objects.states).features)
           .enter().append("path")
-          .attr("d", path);
-
+          .attr("d", path)
+          .on("click", clicked);
         // put boarder around states
-        svg.append("path")
+        g.append("path")
           .attr("class", "state-borders")
           .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
             return a !== b;
           })));
 
         // add state names to the map
-        svg.append("g")
+        g.append("g")
           .attr("class", "states-names")
           .selectAll("text")
           .data(topojson.feature(us, us.objects.states).features)
@@ -139,7 +158,7 @@
           .on("change", function(d) {
             selection = document.getElementById("dropdown").value;
             // remove the previous circles
-            svg.selectAll("circle").remove();
+            g.selectAll("circle").remove();
             renderChart(selection, incident_data);
           });
 
@@ -167,12 +186,12 @@
           });
 
           // Update the chart title
-          svg.select("text.annotation")
+          g.select("text.annotation")
             .text("US Gun Violence Data for the Year " + year);
 
 
           // Add the incident markers
-          svg.selectAll("circle")
+          g.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
             .attr("r", 2)
@@ -183,6 +202,44 @@
         } // end function renderChart(year, data)
 
       } // end makeIncidentMap
+
+      function clicked(d) {
+        if (active.node() === this) return reset();
+        active.classed("active", false);
+        active = d3.select(this).classed("active", true);
+
+        var bounds = path.bounds(d),
+          dx = bounds[1][0] - bounds[0][0],
+          dy = bounds[1][1] - bounds[0][1],
+          x = (bounds[0][0] + bounds[1][0]) / 2,
+          y = (bounds[0][1] + bounds[1][1]) / 2,
+          scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+          translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        svg.transition()
+          .duration(750)
+          .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)); // updated for d3 v4
+      }
+
+      function reset() {
+        active.classed("active", false);
+        active = d3.select(null);
+
+        svg.transition()
+          .duration(750)
+          .call(zoom.transform, d3.zoomIdentity); // updated for d3 v4
+      }
+
+      function zoomed() {
+        g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
+        g.attr("transform", d3.event.transform); // updated for d3 v4
+      }
+
+      // If the drag behavior prevents the default click,
+      // also stop propagation so we don’t click-to-zoom.
+      function stopped() {
+        if (d3.event.defaultPrevented) d3.event.stopPropagation();
+      }
     </script>
   </main>
   <div id="scene-intro" class="explain">
