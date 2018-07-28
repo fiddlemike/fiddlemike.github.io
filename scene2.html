@@ -101,6 +101,23 @@
             return a !== b;
           })));
 
+        svg.append("text")
+          .attr("class", "country-label")
+          .attr("transform", function(d) {
+            console.log("d", d);
+            return "translate(" + path.centroid(d) + ")";
+          })
+          .text(function(d) {
+            return d.properties.name;
+          })
+          .attr("dx", function(d) {
+            return "0.3em";
+
+          })
+          .attr("dy", function(d) {
+            return "0.35em";
+          });
+
         // load and display the incident locations
         d3.csv("data/incidents_by_location_and_type.csv", function(d) {
           return {
@@ -138,7 +155,7 @@
             });
 
           // render by default using year = 2013
-          renderChart("2013", data);
+          // renderChart("2013", data);
         }); // end  d3.csv("data/incidents_by_location_and_type.csv"
 
         function renderChart(year, data) {
