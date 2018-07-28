@@ -194,9 +194,9 @@
                 .style("top", 100 + "px")
                 .style("display", "inline-block")
                 .html("<b>Date: </b>" +  (d.date) +  "<br>" +
-                "State: " + (d.state) + ", City/County: " + (d.city_or_county) + "<br>" +
-                " Killed: " + (d.n_killed) +   ", Injured " + (d.n_injured) + "<br>" +
-                "Incident Type: " + (d.incident_characteristics));
+                "<b>State: </b>" + (d.state) + ", City/County: </b>" + (d.city_or_county) + "<br>" +
+                "<b>Killed: </b>" + (d.n_killed) +   ", <b>Injured </b>" + (d.n_injured) + "<br>" +
+                "<b>Incident Type: </b>" + (d.incident_characteristics));
             })
             .on("mouseout", function(d, i) {
               d3.select(this)

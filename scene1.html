@@ -157,9 +157,9 @@
             return d[colorColumn];
           }));
 
-          if (year == '2013' || year == "2018") {
+          if (year == "2013" || year == "2018") {
             svg.select("text.annotation")
-              .text("US Gun Violence Data for the Year " + year + ". Only partial data for this year.");
+              .html("US Gun Violence Data for the Year " + year + "<br> (Only partial data available for this year)");
           } else {
             svg.select("text.annotation")
               .text("US Gun Violence Data for the Year " + year);
