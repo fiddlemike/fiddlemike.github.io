@@ -193,19 +193,19 @@
             })
             .on("mouseover", function(d) {
               d3.select(this).attr({
-                fill: "green",
+                fill: green,
                 r: 4
               });
               // set the tooltip
               tooltip
                 .style("left", 480 + "px")
-                .style("top", 75 + "px")
+                .style("top", 100 + "px")
                 .style("display", "inline-block")
                 .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
             })
             .on("mouseout", function(d, i) {
               d3.select(this).attr({
-                fill: "red",
+                fill: red,
                 r: 2
               });
               tooltip.style("display", "none");
