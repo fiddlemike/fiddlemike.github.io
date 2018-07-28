@@ -60,7 +60,8 @@
       // Add a label for the year drop down menu
       d3.select("#drop").append("label").text("Incident Year: ");
       // Add the tooltip
-      var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+      var tooltip = d3.select("body").append("div").attr("class", "toolTip").style("visibility", "hidden");
+
       // Set the projection
       var projection = d3.geoAlbersUsa()
         .scale(1000)
@@ -189,19 +190,14 @@
             .attr("r", 2)
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
-            }).on("mousemove", function(d) {
-              tooltip
-                .style("left", d3.event.pageX - 50 + "px")
-                .style("top", d3.event.pageY - 70 + "px")
-                .style("display", "inline-block")
-                .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
-            }).on("mouseover", function() {
+            })
+            .on("mouseover", function() {
               d3.select(this)
                 .attr("fill", "green");
-            }).on("mouseout", function(d, i) {
+            })
+            .on("mouseout", function(d, i) {
               d3.select(this)
                 .attr("fill", "red");
-              tooltip.style("display", "none");
             });
           // remove old incident markers
           markers.exit().remove();
