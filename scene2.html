@@ -187,7 +187,7 @@
           markers.enter()
             .append("circle")
             .attr("class", "markers")
-            .attr("r", 1)
+            .attr("r", 2)
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
             })
@@ -204,7 +204,7 @@
             })
             .on("mouseout", function(d, i) {
               d3.select(this)
-                .attr('r', 1)
+                .attr('r', 2)
                 .attr("fill", "red");
               tooltip.style("display", "none");
             });
