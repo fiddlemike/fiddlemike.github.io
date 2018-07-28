@@ -97,8 +97,7 @@
         // extract just the state names and Ids from the us-state-names.tsv file
         var names = {};
         state_names.forEach(function(d, i) {
-          var key = d.id.length > 1 ? d.id : '0' + d.id;
-          names[key] = d.name;
+          names[d.id] = d.name;
         });
 
         // add states from topojson
