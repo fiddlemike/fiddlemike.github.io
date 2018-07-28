@@ -97,7 +97,8 @@
         // extract just the state names and Ids from the us-state-names.tsv file
         var names = {};
         state_names.forEach(function(d, i) {
-          names[d.id] = d.name;
+          var key = d.id.length > 1 ? d.id : '0' + d.id;
+          names[key] = d.name;
         });
 
         // add states from topojson
@@ -130,9 +131,7 @@
           })
           .attr("y", function(d) {
             return path.centroid(d)[1];
-          })
-          .attr("text-anchor", "middle")
-          .attr('fill', 'white');
+          });
 
         // add the drop down
         var selector = d3.select("#drop")

@@ -25,3 +25,10 @@
   fill: none;
   pointer-events: all;
 }
+
+.states-names {
+    fill: white;
+    stroke: rgba(0,0,0, .2);
+    stroke-width: .3px;
+    text-anchor: middle;
+}
