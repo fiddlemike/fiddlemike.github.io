@@ -204,7 +204,8 @@
             .attr("class", "markers")
             .attr("r", 0)
             .transition()
-            .duration(1000).ease("elastic")
+            .duration(1000)
+            .ease(d3.easeElastic)
             .attr("r", 2.5)
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
