@@ -33,7 +33,7 @@
 }
 
 .markers {
-  fill: red;
+  fill: #ff0000;
   stroke: black;
   stroke-width: 0.5;
 }
