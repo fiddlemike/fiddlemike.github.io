@@ -101,6 +101,37 @@
           };
         }, function(error, data) {
 
+          // Add chart title
+          svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .attr("id", "chart-title")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("US Gun Violence 2013-2018");
+
+          // add the drop down
+          var selector = d3.select("#drop")
+            .append("select")
+            .attr("id", "dropdown")
+            .on("change", function(d) {
+              selection = document.getElementById("dropdown").value;
+              renderChart(selection, data);
+            });
+
+          // Map the values for the drop down
+          selector.selectAll("option")
+            .data(d3.map(csv_data, function(d) {
+              return d.year;
+            }).keys())
+            .enter().append("option")
+            .attr("value", function(d) {
+              return d;
+            })
+            .text(function(d) {
+              return d;
+            });
           var filteredData = data.filter(function(d) {
             return d.year == "2013";
           });
@@ -118,7 +149,6 @@
 
         }); // end  d3.csv("data/incidents_by_location_and_type.csv"
       }); // end d3.json("json/us.json", function(error, us)
-
     </script>
   </main>
   <div id="scene-intro" class="explain">
