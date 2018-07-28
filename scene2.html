@@ -71,6 +71,17 @@
         .attr("width", width)
         .attr("height", height);
 
+      // Add chart title
+      svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 20)
+        .attr("text-anchor", "middle")
+        .attr("id", "chart-title")
+        .attr("class", "annotation")
+        .style("font-size", "16px")
+        .style("text-decoration", "underline")
+        .text("US Gun Violence 2013-2018");
+
       // Create the map svg
       d3.json("json/us.json", function(error, us) {
         if (error) throw error;
@@ -93,7 +104,7 @@
         // load and display the incident locations
         d3.csv("data/incidents_by_location_and_type.csv", function(d) {
           return {
-            month: d.month,
+            incident_id: d.incident_id,
             year: d.year,
             lat: +d.latitude,
             lon: +d.longitude,
@@ -101,15 +112,6 @@
           };
         }, function(error, data) {
 
-          // Add chart title
-          svg.append("text")
-            .attr("x", (width / 2))
-            .attr("y", 20)
-            .attr("text-anchor", "middle")
-            .attr("id", "chart-title")
-            .style("font-size", "16px")
-            .style("text-decoration", "underline")
-            .text("US Gun Violence 2013-2018");
 
           // add the drop down
           var selector = d3.select("#drop")
@@ -117,6 +119,7 @@
             .attr("id", "dropdown")
             .on("change", function(d) {
               selection = document.getElementById("dropdown").value;
+              renderChart(selection, data);
             });
 
           // Map the values for the drop down
@@ -132,12 +135,20 @@
               return d;
             });
 
+          // render by default using year = 2013
+          renderChart("2013", data);
+        }); // end  d3.csv("data/incidents_by_location_and_type.csv"
+
+        function renderChart(year, data) {
+
           // Filter the data based on the year dropdown
           var filteredData = data.filter(function(d) {
-            return d.year == "2013";
+            return d.year == year;
           });
 
-          console.log(filteredData);
+          // Update the chart title
+          svg.select("text.annotation")
+            .text("US Gun Violence Data for the Year " + year);
 
           // remove the previous circles
           svg.selectAll("circle").remove();
@@ -151,8 +162,8 @@
             .attr("transform", function(d) {
               return "translate(" + projection([d.lon, d.lat]) + ")"
             });
+        } // end function renderChart(year, data)
 
-        }); // end  d3.csv("data/incidents_by_location_and_type.csv"
       }); // end d3.json("json/us.json", function(error, us)
     </script>
   </main>

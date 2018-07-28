@@ -73,6 +73,7 @@
           .attr("y", 0 - (margin.top / 2))
           .attr("text-anchor", "middle")
           .attr("id", "chart-title")
+          .attr("class", "annotation")
           .style("font-size", "16px")
           .style("text-decoration", "underline")
           .text("US Gun Violence 2013-2018");
@@ -134,7 +135,7 @@
             });
           // render by default using year = 2013
           renderChart("2013", csv_data);
-        });
+        }); // end  d3.csv("data/incidents_by_year_and_state.csv", function(d)
 
         function renderChart(year, data) {
           // filter the data based on the year dropdown
