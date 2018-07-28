@@ -248,11 +248,7 @@
       function zoomed() {
         g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
         g.attr("transform", d3.event.transform); // updated for d3 v4
-        g.selectAll(".markers")
-            .attr("d", path.projection(projection))
-            .attr("r", 2/zoom.scale());
-      }
-
+        markers.attr("transform", d3.event.transform);
       // If the drag behavior prevents the default click,
       // also stop propagation so we don’t click-to-zoom.
       function stopped() {
