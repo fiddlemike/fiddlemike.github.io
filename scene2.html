@@ -119,10 +119,10 @@
           names[d.id] = d.name;
         });
 
-        incident_data.forEach(function (d) {
-            // coerce to number
-            d.latitude = +d.latitude;
-            d.longitude = +d.longitude;
+        incident_data.forEach(function(d) {
+          // coerce to number
+          d.latitude = +d.latitude;
+          d.longitude = +d.longitude;
         });
 
         // add states from topojson
@@ -195,19 +195,26 @@
           g.select("text.annotation")
             .text("US Gun Violence Data for the Year " + year);
 
-          var incidents = svg.append("g");
-
-
           /* Add the incident markers */
-          g.selectAll("circle")
-            .data(filteredData)
-            .enter().append("circle")
-            .attr("r", 2)
-            .style("fill", "red")
+          var markers = g.selectAll(".markers")
+            .data(filteredData);
+          // Add new incident markers
+          markers.enter()
+            .append("circle")
+            .attr("class", "markers")
+            .attr("r", 0)
+            .transition()
+            .duration(1000).ease("elastic")
+            .attr("r", 2.5)
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
             });
-
+          // remove old incident markers
+          markers.exit()
+            .transition()
+            .duration(500)
+            .attr("r", 0)
+            .remove();
         } // end function renderChart(year, data)
 
       } // end makeIncidentMap

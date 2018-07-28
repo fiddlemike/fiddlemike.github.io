@@ -31,3 +31,7 @@
     font-size: 6pt;
     text-anchor: middle;
 }
+
+.markers{
+  fill: red;
+}
