@@ -191,18 +191,16 @@
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
             })
-            .on("mousemove", function(d) {
-              tooltip
-                .style("left", d3.event.pageX - 50 + "px")
-                .style("top", d3.event.pageY - 70 + "px")
-                .style("display", "inline-block")
-                .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
-            })
             .on("mouseover", function() {
               d3.select(this)
                 .transition()
                 .attr('r', 10)
                 .attr("fill", "green");
+              tooltip
+                .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
             })
             .on("mouseout", function(d, i) {
               d3.select(this)
