@@ -40,6 +40,12 @@
   <div id="drop" class="toolbar" align="center">
     <a href="/scene1">&larr; Previous Scene</a>
   </div>
+  <div id="loading">
+    <div style="position: fixed; top: 40%; width: 100%;
+            font-size: 600%; text-align: center; z-index: 11;">loading...</div>
+    <div style="position: fixed; height: 100%; width: 100%;
+            z-index: 10; background-color: #c8ebf0; opacity: 0.3;"></div>
+  </div>
   <main>
     <div id="viz" class="us-map">
 
@@ -193,10 +199,10 @@
                 .style("left", 480 + "px")
                 .style("top", 100 + "px")
                 .style("display", "inline-block")
-                .html("<b>Date: </b>" +  (d.date) +  "<br>" +
-                "<b>State: </b>" + (d.state) + ", <b>City/County: </b>" + (d.city_or_county) + "<br>" +
-                "<b>Killed: </b>" + (d.n_killed) +   ", <b>Injured </b>" + (d.n_injured) + "<br>" +
-                "<b>Incident Type: </b>" + (d.incident_characteristics));
+                .html("<b>Date: </b>" + (d.date) + "<br>" +
+                  "<b>State: </b>" + (d.state) + ", <b>City/County: </b>" + (d.city_or_county) + "<br>" +
+                  "<b>Killed: </b>" + (d.n_killed) + ", <b>Injured </b>" + (d.n_injured) + "<br>" +
+                  "<b>Incident Type: </b>" + (d.incident_characteristics));
             })
             .on("mouseout", function(d, i) {
               d3.select(this)
@@ -208,6 +214,7 @@
             });
           // remove old incident markers
           markers.exit().remove();
+          $("#loading").fadeOut();
         } // end function renderChart(year, data)
 
       } // end makeIncidentMap
