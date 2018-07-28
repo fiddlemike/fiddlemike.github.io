@@ -37,3 +37,9 @@
   stroke: black;
   stroke-width: 0.5;
 }
+
+.markers :hover{
+  fill: green;
+  stroke: red;
+  stroke-width: 0.5;
+}
