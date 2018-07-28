@@ -86,9 +86,7 @@
       d3.queue()
         .defer(d3.json, "json/us.json")
         .defer(d3.tsv, "tsv/us-state-names.tsv")
-        .defer(d3.csv, "data/incidents_by_location_and_type.csv", function(d) {
-          data.set(d.incident_id, d.year, +d.latitude, +d.longitude, d.incident_characteristics);
-        })
+        .defer(d3.csv, "data/incidents_by_location_and_type.csv")
         .await(makeIncidentMap);
 
       function makeIncidentMap(error, us, state_names, incident_data) {
