@@ -34,5 +34,6 @@
 
 .markers {
   fill: red;
+  stroke: black;
   stroke-width: 0.025;
 }
