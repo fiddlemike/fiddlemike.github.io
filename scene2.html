@@ -71,7 +71,7 @@
         .on("zoom", zoomed);
 
       // create path variable
-      var path = d3.geoPath().projection(projection);
+      var geoPath = d3.geoPath().projection(projection);
 
       // Set up the svg
       var svg = d3.select("#viz").append("svg")
@@ -125,16 +125,16 @@
           .selectAll("path")
           .data(topojson.feature(us, us.objects.states).features)
           .enter().append("path")
-          .attr("d", path)
+          .attr("d", geoPath)
           .on("click", clicked);
         // put boarder around states
         g.append("path")
           .attr("class", "state-borders")
-          .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) {
+          .attr("d", geoPath(topojson.mesh(us, us.objects.states, function(a, b) {
             return a !== b;
           })));
 
-        // add state names to the map
+        /* add state names to the map
         g.append("g")
           .attr("class", "states-names")
           .selectAll("text")
@@ -149,7 +149,7 @@
           })
           .attr("y", function(d) {
             return path.centroid(d)[1];
-          });
+          }); */
 
         // add the drop down
         var selector = d3.select("#drop")
@@ -176,7 +176,7 @@
           });
 
         // render by default using year = 2013
-        // renderChart("2013", data);
+        renderChart("2013", incident_data);
 
         function renderChart(year, data) {
 
@@ -189,8 +189,17 @@
           g.select("text.annotation")
             .text("US Gun Violence Data for the Year " + year);
 
+          var incidents = svg.append("g");
 
-          // Add the incident markers
+          incidents.selectAll("path")
+            .data(data)
+            .enter()
+            .append("path")
+            .attr("fill", "#900")
+            .attr("stroke", "#999")
+            .attr("d", geoPath);
+
+          /* Add the incident markers
           g.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
@@ -199,6 +208,7 @@
             .attr("transform", function(d) {
               return "translate(" + projection([d.lon, d.lat]) + ")"
             });
+            */
         } // end function renderChart(year, data)
 
       } // end makeIncidentMap
