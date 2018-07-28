@@ -94,6 +94,12 @@
           console.log(error);
         }
 
+        // extract just the state names and Ids from the us-state-names.tsv file
+        var names = {};
+        state_names.forEach(function(d, i) {
+          names[d.id] = d.name;
+        });
+
         // add states from topojson
         svg.append("g")
           .attr("class", "states")
@@ -109,6 +115,24 @@
             return a !== b;
           })));
 
+        // add state names to the map
+        svg.append("g")
+          .attr("class", "states-names")
+          .selectAll("text")
+          .data(topojson.feature(us, us.objects.states).features)
+          .enter()
+          .append("text")
+          .text(function(d) {
+            return names[d.id];
+          })
+          .attr("x", function(d) {
+            return path.centroid(d)[0];
+          })
+          .attr("y", function(d) {
+            return path.centroid(d)[1];
+          })
+          .attr("text-anchor", "middle")
+          .attr('fill', 'white');
 
         // add the drop down
         var selector = d3.select("#drop")
