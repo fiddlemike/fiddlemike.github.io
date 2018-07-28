@@ -191,7 +191,7 @@
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
             })
-            .on("mouseover", function() {
+            .on("mouseover", function(d) {
               d3.select(this)
                 .transition()
                 .attr('r', 10)
