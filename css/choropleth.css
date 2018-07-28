@@ -27,11 +27,11 @@
 }
 
 .states-names {
-    fill: white;
-    font-size: 6pt;
-    text-anchor: middle;
+  fill: white;
+  font-size: 6pt;
+  text-anchor: middle;
 }
 
-.markers{
+.markers {
   fill: red;
 }

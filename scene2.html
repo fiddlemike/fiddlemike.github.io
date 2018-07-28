@@ -119,8 +119,8 @@
           names[d.id] = d.name;
         });
 
+        // coerce latitude and longitude to a number
         incident_data.forEach(function(d) {
-          // coerce to number
           d.latitude = +d.latitude;
           d.longitude = +d.longitude;
         });
@@ -140,22 +140,6 @@
             return a !== b;
           })));
 
-        /* add state names to the map
-        g.append("g")
-          .attr("class", "states-names")
-          .selectAll("text")
-          .data(topojson.feature(us, us.objects.states).features)
-          .enter()
-          .append("text")
-          .text(function(d) {
-            return names[d.id];
-          })
-          .attr("x", function(d) {
-            return path.centroid(d)[0];
-          })
-          .attr("y", function(d) {
-            return path.centroid(d)[1];
-          }); */
 
         // add the drop down
         var selector = d3.select("#drop")
@@ -204,6 +188,19 @@
             .attr("r", 2)
             .attr("transform", function(d) {
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
+            }).on("mousemove", function(d) {
+              tooltip
+                .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
+            }).on("mouseover", function() {
+              d3.select(this)
+                .attr("fill", "green");
+            }).on("mouseout", function(d, i) {
+              d3.select(this)
+                .attr("fill", "red");
+              tooltip.style("display", "none");
             });
           // remove old incident markers
           markers.exit().remove();
