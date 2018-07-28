@@ -192,10 +192,13 @@
               return "translate(" + projection([d.longitude, d.latitude]) + ")"
             })
             .on("mouseover", function(d) {
+              d3.select(this)
+                .attr('r', 6)
+                .attr("fill", "green");
               // set the tooltip
               tooltip
-                .style("left", d3.event.pageX - 50 + "px")
-                .style("top", d3.event.pageY - 70 + "px")
+                .style("left", 600 + "px")
+                .style("top",  70 + "px")
                 .style("display", "inline-block")
                 .html("State: " + (d.state) + "<br>" + "City/County: " + (d.city_or_county) + "<br>" + "Type: " + (d.incident_characteristics));
             })
