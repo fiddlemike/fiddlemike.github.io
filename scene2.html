@@ -193,7 +193,8 @@
             })
             .on("mouseover", function(d) {
               d3.select(this)
-                .attr("r", 4);
+                .attr("r", 4)
+                .style("fill","green");
               // set the tooltip
               tooltip
                 .style("left", 480 + "px")
@@ -203,7 +204,8 @@
             })
             .on("mouseout", function(d, i) {
               d3.select(this)
-                .attr("r", 2);
+                .attr("r", 2)
+                .style("fill","red");
               tooltip.style("display", "none");
             });
           // remove old incident markers
