@@ -148,8 +148,7 @@
           .attr("id", "dropdown")
           .on("change", function(d) {
             selection = document.getElementById("dropdown").value;
-            // remove the previous circles
-            g.selectAll("circle").remove();
+            $("#loading").fadeIn();
             renderChart(selection, incident_data);
           });
 
