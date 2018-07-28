@@ -119,6 +119,12 @@
           names[d.id] = d.name;
         });
 
+        incident_data.forEach(function (d) {
+            // coerce to number
+            d.latitude = +d.latitude;
+            d.longitude = +d.longitude;
+        });
+
         // add states from topojson
         g.append("g")
           .attr("class", "states")
@@ -191,24 +197,17 @@
 
           var incidents = svg.append("g");
 
-          incidents.selectAll("path")
-            .data(data)
-            .enter()
-            .append("path")
-            .attr("fill", "#900")
-            .attr("stroke", "#999")
-            .attr("d", geoPath);
 
-          /* Add the incident markers
+          /* Add the incident markers */
           g.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
             .attr("r", 2)
             .style("fill", "red")
             .attr("transform", function(d) {
-              return "translate(" + projection([d.lon, d.lat]) + ")"
+              return "translate(" + projection([d.longitude, d.latitude]) + ")"
             });
-            */
+
         } // end function renderChart(year, data)
 
       } // end makeIncidentMap

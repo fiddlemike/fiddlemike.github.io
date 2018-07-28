@@ -41,3 +41,13 @@
           type: d.incident_characteristics
         };
       }, function(error, data) {
+
+
+        g.selectAll("circle")
+          .data(filteredData)
+          .enter().append("circle")
+          .attr("r", 2)
+          .style("fill", "red")
+          .attr("transform", function(d) {
+            return "translate(" + projection([d.lon, d.lat]) + ")"
+          });
