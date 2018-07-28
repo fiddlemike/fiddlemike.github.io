@@ -117,12 +117,11 @@
             .attr("id", "dropdown")
             .on("change", function(d) {
               selection = document.getElementById("dropdown").value;
-              renderChart(selection, data);
             });
 
           // Map the values for the drop down
           selector.selectAll("option")
-            .data(d3.map(csv_data, function(d) {
+            .data(d3.map(data, function(d) {
               return d.year;
             }).keys())
             .enter().append("option")
@@ -132,12 +131,18 @@
             .text(function(d) {
               return d;
             });
+
+          // Filter the data based on the year dropdown
           var filteredData = data.filter(function(d) {
             return d.year == "2013";
           });
 
           console.log(filteredData);
 
+          // remove the previous circles
+          svg.selectAll("circle").remove();
+
+          // Add the incident markers
           svg.selectAll("circle")
             .data(filteredData)
             .enter().append("circle")
