@@ -59,7 +59,8 @@
 
       // Add a label for the year drop down menu
       d3.select("#drop").append("label").text("Incident Year: ");
-
+      // Add the tooltip
+      var tooltip = d3.select("body").append("div").attr("class", "toolTip");
       // Set the projection
       var projection = d3.geoAlbersUsa()
         .scale(1000)
