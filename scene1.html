@@ -84,6 +84,7 @@
           .attr("x", width / 2)
           .attr("y", height + margin.bottom)
           .style("text-anchor", "middle")
+          .style("font-weight", "bold")
           .text("Number of Incidents");
         // add the y axis
         svg.append("g").attr("class", "y axis");
@@ -97,6 +98,7 @@
           })
           .style("fill", "black")
           .style("text-anchor", "middle")
+          .style("font-weight", "bold")
           .text("US States");
 
         // Fetch and format the data
@@ -222,9 +224,9 @@
         <a href="/essay" target="_blank" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">About the Visualization</a>
       </div>
       <div class="col-md-6">
-        <p>This visualization is based on the gun violence 2013-2018 data set publically available on
+        <p><i>This visualization is based on the gun violence 2013-2018 data set publically available on
           <a href="https://www.kaggle.com/jameslko/gun-violence-data" target="_blank">Kaggle.</a>
-        </p>
+        </i></p>
       </div>
     </div>
   </div>
