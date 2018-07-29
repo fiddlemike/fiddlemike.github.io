@@ -75,7 +75,6 @@
           .attr("class", "annotation")
           .style("font-size", "16px")
           .style("text-decoration", "underline")
-          .style("font-weight", "bold")
           .text("US Gun Violence 2013-2018");
 
         // add the x axis
@@ -85,7 +84,6 @@
           .attr("x", width / 2)
           .attr("y", height + margin.bottom)
           .style("text-anchor", "middle")
-          .style("font-weight", "bold")
           .text("Number of Incidents");
         // add the y axis
         svg.append("g").attr("class", "y axis");
@@ -99,7 +97,6 @@
           })
           .style("fill", "black")
           .style("text-anchor", "middle")
-          .style("font-weight", "bold")
           .text("US States");
 
         // Fetch and format the data
