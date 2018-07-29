@@ -201,7 +201,7 @@
             .on("mousemove", function(d) {
               tooltip
                 .style("left", d3.event.pageX - 50 + "px")
-                .style("top", d3.event.pageY - 70 + "px")
+                .style("top", d3.event.pageY - 90 + "px")
                 .style("display", "inline-block")
                 .html("State: " + (d.state) + "<br>" + "Total Incidents: " + (d.freq));
             })
