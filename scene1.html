@@ -84,6 +84,8 @@
         svg.append("text")
           .attr("x", width / 2)
           .attr("y", height + margin.bottom)
+          .style("fill", "black")
+          .style("font-weight", "bold")
           .style("text-anchor", "middle")
           .text("Number of Incidents");
         // add the y axis
@@ -97,6 +99,7 @@
             return "rotate(-90)"
           })
           .style("fill", "black")
+          .style("font-weight", "bold")
           .style("text-anchor", "middle")
           .text("US States");
 
