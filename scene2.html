@@ -176,8 +176,14 @@
           });
 
           // Update the chart title
-          g.select("text.annotation")
-            .text("US Gun Violence Data for the Year " + year);
+          if (year == "2013" || year == "2018") {
+            g.select("text.annotation")
+              .text("US Gun Violence Data for the Year " + year + ". (Only partial data available for this year)");
+          } else {
+            g.select("text.annotation")
+              .text("US Gun Violence Data for the Year " + year);
+          }
+
 
           /* Add the incident markers */
           var markers = g.selectAll(".markers").data(filteredData);
@@ -258,7 +264,9 @@
     </script>
   </main>
   <div id="scene-intro" class="explain">
-    <p>This is where there will be an explanation ot the scene.</p>
+    <p>This visualization is based on the gun violence 2013-2018 data set publically available on
+       <a href="https://www.kaggle.com/jameslko/gun-violence-data" target="_blank">Kaggle.</a>
+     </p>
   </div>
   <footer id="footer">
     <hr>
