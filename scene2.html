@@ -71,7 +71,8 @@
       var projection = d3.geoAlbersUsa()
         .scale(1000)
         .translate([width / 2, height / 2]);
-
+      var t = projection.translate(); // the projection's default translation
+      var s = projection.scale() // the projection's default scale
       // Set zoom
       var zoom = d3.zoom()
         .scaleExtent([1, 8])
@@ -237,24 +238,36 @@
           scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
           translate = [width / 2 - scale * x, height / 2 - scale * y];
 
-        svg.transition()
+        g.transition()
           .duration(750)
           .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)); // updated for d3 v4
+         //this will move the markers
+        g.selectAll(".markers")
+        .transition()
+          .duration(750)
+          .attr("transform", function(d) {
+            var t = d3.transform(d3.select(this).attr("transform")).translate;
+            return "translate(" + t[0] +","+ t[1] + ")scale("+1/scale+")";
+          }); 
       }
 
       function reset() {
         active.classed("active", false);
         active = d3.select(null);
 
-        svg.transition()
+        g.transition()
           .duration(750)
           .call(zoom.transform, d3.zoomIdentity); // updated for d3 v4
+        g.selectAll(".markers")
+        .attr("transform", function(d) {
+          var t = d3.transform(d3.select(this).attr("transform")).translate;
+          return "translate(" + t[0] +","+ t[1] + ")scale("+1+")";
+        });   
       }
 
       function zoomed() {
         g.style("stroke-width", 1.5 / d3.event.transform.k + "px");
         g.attr("transform", d3.event.transform); // updated for d3 v4
-        markers.attr("transform", d3.event.transform);
       }
       // If the drag behavior prevents the default click,
       // also stop propagation so we don’t click-to-zoom.
